@@ -632,6 +632,7 @@ void frame() {
 
                 if(collisionIndex.y <= 6) {
                     // max speed when hitting top 3 rows
+                    bVel.x *= (1.3f) / bSpeedMultiplier;
                     bSpeedMultiplier = 1.3f;
                     bricksHit = 99;
                 }
