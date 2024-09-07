@@ -1,0 +1,422 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.03.000)22-Aug-2024 14:22:58
+
+*** Options ***
+
+-subcommand=C:\Users\hojooni\AppData\Local\Temp\hmk919F.tmp
+noprelink
+sdebug
+rom D=R
+nomessage
+list "C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\SNAKE\Debug\FXADDINror.map"
+show symbol
+nooptimize
+start P_TOP,P,C,D,C$VTBL,C$INIT/0300200,B_BR_Size,B,R/08100000
+fsymbol P
+nologo
+input "C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\SNAKE\Debug\Snake.obj"
+input "C:\Users\hojooni\OS\FX\lib\setup.obj"
+library "C:\Users\hojooni\OS\FX\lib\fx9860G_library.lib"
+output "C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\SNAKE\Debug\FXADDINror.abs"
+-nomessage=1100
+end
+
+*** Error information ***
+
+*** Mapping List ***
+
+SECTION                            START      END         SIZE   ALIGN
+
+P_TOP
+                                  00300200  0030020b         c   4
+P
+                                  0030020c  00301243      1038   4
+C
+                                  00301244  003012a7        64   4
+D
+                                  003012a8  003012d7        30   4
+B_BR_Size
+                                  08100000  08100003         4   4
+B
+                                  08100004  08100bfb       bf8   4
+R
+                                  08100bfc  08100c2b        30   4
+
+*** Symbol List ***
+
+SECTION=
+FILE=                               START        END    SIZE
+  SYMBOL                            ADDR        SIZE    INFO      COUNTS  OPT
+
+SECTION=P_TOP
+FILE=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\SNAKE\Debug\Snake.obj
+                                  00300200  0030020b         c
+  _InitializeSystem
+                                  00300200         c   func ,g         * 
+
+SECTION=P
+FILE=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\SNAKE\Debug\Snake.obj
+                                  0030020c  00300af7       8ec
+  _titleScreen
+                                  0030020c        78   func ,g         * 
+  _initGame
+                                  00300284       190   func ,g         * 
+  _placeFood
+                                  00300414        98   func ,g         * 
+  _snakeCellGraph
+                                  003004ac        a4   func ,g         * 
+  _game
+                                  00300550        bc   func ,g         * 
+  _drawSnake
+                                  0030060c       112   func ,g         * 
+  _itoa
+                                  0030071e        72   func ,g         * 
+  _drawScreen
+                                  00300790       110   func ,g         * 
+  _frame
+                                  003008a0       20c   func ,g         * 
+  _backgroundTick
+                                  00300aac        18   func ,g         * 
+  _AddIn_main
+                                  00300ac4        34   func ,g         * 
+FILE=C:\Users\hojooni\OS\FX\lib\setup.obj
+                                  00300af8  00300c13       11c
+  ___LINK_PROTECT
+                                  00300af8         4   func ,g         * 
+  _SetQuitHandler
+                                  00300afc         6   func ,g         * 
+  _OnAppCloseDefault
+                                  00300b02        54   func ,g         * 
+  __INITSCT_ADDIN
+                                  00300b56        48   func ,g         * 
+  _INIT_ADDIN_APPLICATION
+                                  00300b9e        76   func ,g         * 
+FILE=__divls
+                                  00300c14  00300cc7        b4
+  __divls
+                                  00300c14         0   none ,g         * 
+  divls_zero
+                                  00300cb2         0   none ,l         * 
+  A_errno
+                                  00300cc0         0   none ,l         * 
+  n_zerono
+                                  00300cc4         0   none ,l         * 
+FILE=__modls
+                                  00300cc8  00300d8f        c8
+  __modls
+                                  00300cc8         0   none ,g         * 
+  modls_L
+                                  00300d6e         0   none ,l         * 
+  modls_zero
+                                  00300d7a         0   none ,l         * 
+  A_errno
+                                  00300d88         0   none ,l         * 
+  n_zerono
+                                  00300d8c         0   none ,l         * 
+FILE=__q_fmvn
+                                  00300d90  00300e33        a4
+  __quick_evn_mvn
+                                  00300d90         0   none ,g         * 
+  __quick_odd_mvn
+                                  00300d9c         0   none ,g         * 
+  A_FMVN_TBL
+                                  00300da8         0   none ,l         * 
+  FMVN_64
+                                  00300dae         0   none ,l         * 
+  FMVN_60
+                                  00300db2         0   none ,l         * 
+  FMVN_56
+                                  00300db6         0   none ,l         * 
+  FMVN_52
+                                  00300dba         0   none ,l         * 
+  FMVN_48
+                                  00300dbe         0   none ,l         * 
+  FMVN_44
+                                  00300dc2         0   none ,l         * 
+  FMVN_40
+                                  00300dc6         0   none ,l         * 
+  FMVN_36
+                                  00300dca         0   none ,l         * 
+  FMVN_32
+                                  00300dce         0   none ,l         * 
+  FMVN_28
+                                  00300dd2         0   none ,l         * 
+  FMVN_24
+                                  00300dd6         0   none ,l         * 
+  FMVN_20
+                                  00300dda         0   none ,l         * 
+  FMVN_16
+                                  00300dde         0   none ,l         * 
+  FMVN_12
+                                  00300de2         0   none ,l         * 
+  FMVN_8
+                                  00300de6         0   none ,l         * 
+  FMVN_4
+                                  00300dea         0   none ,l         * 
+  FMVN_0
+                                  00300dec         0   none ,l         * 
+  FMVN_TBL
+                                  00300df0         0   none ,l         * 
+FILE=rand
+                                  00300e34  00300e5f        2c
+  _rand
+                                  00300e34        2c   func ,g         * 
+FILE=srand
+                                  00300e60  00300e6b         c
+  _srand
+                                  00300e60         c   func ,g         * 
+FILE=_Bdel_cychdr
+                                  00300e6c  00300e7b        10
+  _Bdel_cychdr
+                                  00300e6c         0   none ,g         * 
+FILE=_Bdisp_AllClr_VRAM
+                                  00300e7c  00300e8b        10
+  _Bdisp_AllClr_VRAM
+                                  00300e7c         0   none ,g         * 
+FILE=_Bdisp_ClearLineVRAM
+                                  00300e8c  00300e9b        10
+  _Bdisp_ClearLineVRAM
+                                  00300e8c         0   none ,g         * 
+FILE=_Bdisp_GetPoint_VRAM
+                                  00300e9c  00300eab        10
+  _Bdisp_GetPoint_VRAM
+                                  00300e9c         0   none ,g         * 
+FILE=_Bdisp_PutDisp_DD
+                                  00300eac  00300ebb        10
+  _Bdisp_PutDisp_DD
+                                  00300eac         0   none ,g         * 
+FILE=_Bdisp_PutLineVRAM
+                                  00300ebc  00300ecb        10
+  _Bdisp_DrawLineVRAM
+                                  00300ebc         0   none ,g         * 
+FILE=_Bdisp_WriteGraph_VRAM
+                                  00300ecc  00300edb        10
+  _Bdisp_WriteGraph_VRAM
+                                  00300ecc         0   none ,g         * 
+FILE=_BfileFLS_CloseFile
+                                  00300edc  00300eeb        10
+  _BfileFLS_CloseFile
+                                  00300edc         0   none ,g         * 
+FILE=_Bkey_Set_RepeatTime_Default
+                                  00300eec  00300efb        10
+  _Bkey_Set_RepeatTime_Default
+                                  00300eec         0   none ,g         * 
+FILE=_CallbackAtQuitMainFunction
+                                  00300efc  00300f0b        10
+  _CallbackAtQuitMainFunction
+                                  00300efc         0   none ,g         * 
+FILE=_flsFindClose
+                                  00300f0c  00300f1b        10
+  _flsFindClose
+                                  00300f0c         0   none ,g         * 
+FILE=_getkey
+                                  00300f1c  00300f2b        10
+  _GetKey
+                                  00300f1c         0   none ,g         * 
+FILE=_GLibAddinAplExecutionCheck
+                                  00300f2c  00300f3b        10
+  _GLibAddinAplExecutionCheck
+                                  00300f2c         0   none ,g         * 
+FILE=_Hmem_SetMMU
+                                  00300f3c  00300f4b        10
+  _Hmem_SetMMU
+                                  00300f3c         0   none ,g         * 
+FILE=_Print
+                                  00300f4c  00300f5b        10
+  _Print
+                                  00300f4c         0   none ,g         * 
+FILE=dispbios
+                                  00300f5c  003010d1       176
+  _PrintMini
+                                  00300f5c        1c   func ,g         * 
+  _locate
+                                  00300f78        28   func ,g         * 
+  _Bdisp_ReadArea_DD
+                                  00300fa0       132   func ,g         * 
+FILE=timer
+                                  003010d4  003011d3       100
+  _GetSDKLibraryVersion
+                                  003010d4         6   func ,g         * 
+  _SetTimer
+                                  003010da        54   func ,g         * 
+  _KillTimer
+                                  0030112e        44   func ,g         * 
+  _Sleep
+                                  00301172        62   func ,g         * 
+FILE=_Bcre_cychdr
+                                  003011d4  003011e3        10
+  _Bcre_cychdr
+                                  003011d4         0   none ,g         * 
+FILE=_BSrl_DummyWAIT
+                                  003011e4  003011f3        10
+  _BSrl_DummyWAIT
+                                  003011e4         0   none ,g         * 
+FILE=_Bsta_cychdr
+                                  003011f4  00301203        10
+  _Bsta_cychdr
+                                  003011f4         0   none ,g         * 
+FILE=_Bstp_cychdr
+                                  00301204  00301213        10
+  _Bstp_cychdr
+                                  00301204         0   none ,g         * 
+FILE=_DD_GET
+                                  00301214  00301223        10
+  _DD_GET
+                                  00301214         0   none ,g         * 
+FILE=_locate
+                                  00301224  00301233        10
+  _locate_OS
+                                  00301224         0   none ,g         * 
+FILE=_PrintMiniSd
+                                  00301234  00301243        10
+  _PrintMiniSd
+                                  00301234         0   none ,g         * 
+
+SECTION=C
+FILE=addin_sct
+                                  00301294  003012a7        14
+  _B_BGN
+                                  00301294         0   none ,g         * 
+  _B_END
+                                  00301298         0   none ,g         * 
+  _R_BGN
+                                  0030129c         0   none ,g         * 
+  _R_END
+                                  003012a0         0   none ,g         * 
+  _D_ROM
+                                  003012a4         0   none ,g         * 
+
+SECTION=B_BR_Size
+FILE=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\SNAKE\Debug\Snake.obj
+                                  08100000  08100003         4
+  _BR_Size
+                                  08100000         4   data ,g         * 
+
+SECTION=B
+FILE=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\SNAKE\Debug\Snake.obj
+                                  08100004  08100bf7       bf4
+  _board
+                                  08100004       3fc   data ,g         * 
+  _snakePos
+                                  08100400       7f8   data ,g         * 
+FILE=_errno
+                                  08100bf8  08100bfb         4
+  __errno
+                                  08100bf8         4   data ,g         * 
+
+SECTION=R
+FILE=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\SNAKE\Debug\Snake.obj
+                                  08100bfc  08100c23        28
+  _filledGraph
+                                  08100bfc         c   data ,g         * 
+  _snakeLen
+                                  08100c08         4   data ,g         * 
+  _headX
+                                  08100c0c         4   data ,g         * 
+  _headY
+                                  08100c10         4   data ,g         * 
+  _dir
+                                  08100c14         4   data ,g         * 
+  _speed
+                                  08100c18         4   data ,g         * 
+  _dead
+                                  08100c1c         4   data ,g         * 
+  _rSeed
+                                  08100c20         4   data ,g         * 
+FILE=C:\Users\hojooni\OS\FX\lib\setup.obj
+                                  08100c24  08100c27         4
+  _gb_OnAppClose
+                                  08100c24         4   data ,g         * 
+FILE=_rnext
+                                  08100c28  08100c2b         4
+  __rnext
+                                  08100c28         4   data ,g         * 
+
+Absolute value symbols
+FILE=__divls
+  zerodiv
+                                  0000044e         0   none ,l         * 
+FILE=__modls
+  zerodiv
+                                  0000044e         0   none ,l         * 
+FILE=_Bdel_cychdr
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_Bdisp_AllClr_VRAM
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_Bdisp_ClearLineVRAM
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_Bdisp_GetPoint_VRAM
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_Bdisp_PutDisp_DD
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_Bdisp_PutLineVRAM
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_Bdisp_WriteGraph_VRAM
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_BfileFLS_CloseFile
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_Bkey_Set_RepeatTime_Default
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_CallbackAtQuitMainFunction
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_flsFindClose
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_getkey
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_GLibAddinAplExecutionCheck
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_Hmem_SetMMU
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_Print
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_Bcre_cychdr
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_BSrl_DummyWAIT
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_Bsta_cychdr
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_Bstp_cychdr
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_DD_GET
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_locate
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_PrintMiniSd
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+
+*** Delete Symbols ***
+
+SYMBOL                                SIZE    INFO
+
+*** Variable Accessible with Abs8 ***
+
+SYMBOL                                SIZE    COUNTS  OPTIMIZE
+
+*** Variable Accessible with Abs16 ***
+
+SYMBOL                                SIZE    COUNTS  OPTIMIZE
+
+*** Function Call ***
+
+SYMBOL                              COUNTS  OPTIMIZE

@@ -1,0 +1,67 @@
+[DLSimRunSpace]
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\MINES\Mines.c
+Line=86
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\MINES\Mines.c
+Line=40
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\MINES\Mines.c
+Line=86
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\MINES\Mines.c
+Line=26
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\MINES\Mines.c
+Line=87
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\MINES\Mines.c
+Line=83
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\MINES\Mines.c
+Line=83
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\MINES\Mines.c
+Line=40
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\MINES\Mines.c
+Line=209
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\MINES\Mines.c
+Line=224
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\MINES\Mines.c
+Line=228
+Flags=00001012
+
+[Watch]
+Name=i
+Name=&i
+Name=state

@@ -1,0 +1,673 @@
+[DLSimRunSpace]
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=438
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=68
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=70
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=70
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=77
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Name=BR_Size
+Flags=00002041
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=270
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=240
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=468
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=471
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=437
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=454
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=439
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=454
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=452
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=483
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=481
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=479
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=483
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=481
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=479
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=468
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=488
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=488
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=487
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=505
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=433
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=505
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=494
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=493
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=465
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=392
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=394
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=397
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=464
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=459
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=460
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=471
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=471
+Flags=00001012
+Sublevel=3
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=487
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=465
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=477
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=477
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=441
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=473
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=452
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=494
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=493
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=464
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=459
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=460
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=473
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=549
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=549
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=600
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=613
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=630
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=630
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=640
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=642
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=641
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=641
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=644
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=699
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=648
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=675
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=673
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=672
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=672
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=761
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=640
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=567
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=416
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=412
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=413
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=726
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=708
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=714
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=709
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=411
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=642
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=673
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=644
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=675
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=438
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=437
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=613
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=567
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=600
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=714
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=668
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=527
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=527
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=648
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=648
+Flags=00001012
+Sublevel=3
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=648
+Flags=00001012
+Sublevel=4
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=699
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=761
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=726
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=668
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=664
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=1011
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=1010
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=1009
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=708
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=709
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=664
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=1011
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=1010
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=1009
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=1435
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=1435
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=1528
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojooni\OneDrive\문서\CASIO\fx-9860G SDK\TETRIS\TETRIS.c
+Line=1528
+Flags=00001012
+Sublevel=2
+
+[Watch]
+Name=board[0][0]

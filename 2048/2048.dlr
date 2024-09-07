@@ -1,0 +1,152 @@
+[DLSimRunSpace]
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\2048\2048.c
+Line=98
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\2048\2048.c
+Line=100
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\2048\2048.c
+Line=99
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\2048\2048.c
+Line=98
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\2048\2048.c
+Line=100
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\2048\2048.c
+Line=99
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\2048\2048.c
+Line=340
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\2048\2048.c
+Line=318
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\2048\2048.c
+Line=137
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\2048\2048.c
+Line=212
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\2048\2048.c
+Line=212
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\2048\2048.c
+Line=172
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\2048\2048.c
+Line=324
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\2048\2048.c
+Line=312
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\2048\2048.c
+Line=130
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\2048\2048.c
+Line=132
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\2048\2048.c
+Line=162
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\2048\2048.c
+Line=132
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\2048\2048.c
+Line=130
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\2048\2048.c
+Line=137
+Flags=00001012
+Sublevel=2
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\2048\2048.c
+Line=195
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\2048\2048.c
+Line=433
+Flags=00001012
+Sublevel=1
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\2048\2048.c
+Line=428
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\2048\2048.c
+Line=429
+Flags=00001012
+
+[Breakpoint]
+File=C:\Users\hojoo\OneDrive\문서\CASIO\fx-9860G SDK\2048\2048.c
+Line=433
+Flags=00001012
+Sublevel=2
+
+[Watch]
+Name=board[3][0]
+Name=dir
+Name=i
+Name=board[i][j]
+Name=isFirstZero
+Name=board
+Name=j
+Name=k

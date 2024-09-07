@@ -1,0 +1,3107 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: C:\Users\hojoo\OneDrive\¹®¼­\CASIO\fx-9860G SDK\MINES\Mines.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         Mines.c     1    /*****************************************************************/
+         Mines.c     2    /*                                                               */
+         Mines.c     3    /*   CASIO fx-9860G SDK Library                                  */
+         Mines.c     4    /*                                                               */
+         Mines.c     5    /*   File name : [ProjectName].c                                 */
+         Mines.c     6    /*                                                               */
+         Mines.c     7    /*   Copyright (c) 2006 CASIO COMPUTER CO., LTD.                 */
+         Mines.c     8    /*                                                               */
+         Mines.c     9    /*****************************************************************/
+         Mines.c    10    
+         Mines.c    11    #include "fxlib.h"
+         Mines.c    12    #include "timer.h"
+         Mines.c    13    
+         Mines.c    14    
+         Mines.c    15    //****************************************************************************
+         Mines.c    16    //  AddIn_main (Sample program main function)
+         Mines.c    17    //
+         Mines.c    18    //  param   :   isAppli   : 1 = This application is launched by MAIN MENU.
+         Mines.c    19    //                        : 0 = This application is launched by a strip in eACT application.
+         Mines.c    20    //
+         Mines.c    21    //              OptionNum : Strip number (0~3)
+         Mines.c    22    //                         (This parameter is only used when isAppli parameter is 0.)
+         Mines.c    23    //
+         Mines.c    24    //  retval  :   1 = No error / 0 = Error
+         Mines.c    25    //
+         Mines.c    26    //****************************************************************************
+         Mines.c    27    
+         Mines.c    28    unsigned int rSeed = 12345;
+         Mines.c    29    int randInt(int min, int max) {
+P   00000000              _randInt:                        ; function: randInt
+                                                           ; frame size=8
+                                                           ; used runtime library name:
+                                                           ; __modlu
+    00000000 4F22                   STS.L       PR,@-R15
+         Mines.c    30        int randomNum;
+         Mines.c    31        // LCG parameters from Numerical Recipes
+         Mines.c    32        rSeed = 1664525 * rSeed + 1013904223;
+         Mines.c    33        
+         Mines.c    34        // Generate a random number between min and max (inclusive)
+         Mines.c    35        randomNum = (rSeed % (max - min)) + min;
+    00000002 3548                   SUB         R4,R5
+    00000004 D6BC                   MOV.L       L668,R6    ; _rSeed
+    00000006 4F12                   STS.L       MACL,@-R15
+    00000008 D3BC                   MOV.L       L668+4,R3  ; H'0019660D
+    0000000A 6262                   MOV.L       @R6,R2
+    0000000C D1BC                   MOV.L       L668+8,R1  ; H'3C6EF35F
+    0000000E 0237                   MUL.L       R3,R2
+    00000010 031A                   STS         MACL,R3
+    00000012 331C                   ADD         R1,R3
+    00000014 2632                   MOV.L       R3,@R6
+    00000016 6133                   MOV         R3,R1
+    00000018 D3BA                   MOV.L       L668+12,R3 ; __modlu
+    0000001A 430B                   JSR         @R3
+    0000001C 6053                   MOV         R5,R0
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000001E 340C                   ADD         R0,R4
+         Mines.c    36        return randomNum;
+         Mines.c    37    }
+    00000020 4F16                   LDS.L       @R15+,MACL
+    00000022 6043                   MOV         R4,R0
+    00000024 4F26                   LDS.L       @R15+,PR
+    00000026 000B                   RTS
+    00000028 0009                   NOP
+         Mines.c    38    
+         Mines.c    39    void drawUI(int board[30][30], int revealed[30][30]) {
+    0000002A              _drawUI:                         ; function: drawUI
+                                                           ; frame size=16
+    0000002A 2FE6                   MOV.L       R14,@-R15
+    0000002C 2FD6                   MOV.L       R13,@-R15
+         Mines.c    40        int i;
+         Mines.c    41        for(i = 0; i<64; ++i) {
+    0000002E EE00                   MOV         #0,R14
+    00000030 2FC6                   MOV.L       R12,@-R15
+    00000032 EC40                   MOV         #64,R12
+    00000034 DDB4                   MOV.L       L668+16,R13; _Bdisp_DrawLineVRAM
+    00000036 4F22                   STS.L       PR,@-R15
+    00000038              L550:                             
+         Mines.c    42            if(i%2) {
+    00000038 60E3                   MOV         R14,R0
+    0000003A 4011                   CMP/PZ      R0
+    0000003C 8B01                   BF          L552
+    0000003E A005                   BRA         L553
+    00000040 C901                   AND         #1,R0
+    00000042              L552:                             
+    00000042 6007                   NOT         R0,R0
+    00000044 7001                   ADD         #1,R0
+    00000046 C901                   AND         #1,R0
+    00000048 6007                   NOT         R0,R0
+    0000004A 7001                   ADD         #1,R0
+    0000004C              L553:                             
+    0000004C 2008                   TST         R0,R0
+    0000004E 8B04                   BF          L554
+         Mines.c    43                //Bdisp_ClearLineVRAM(38, i, 39, i);
+         Mines.c    44            }
+         Mines.c    45            else {
+         Mines.c    46                Bdisp_DrawLineVRAM(38, i, 39, i);
+    00000050 67E3                   MOV         R14,R7
+    00000052 E627                   MOV         #39,R6
+    00000054 65E3                   MOV         R14,R5
+    00000056 4D0B                   JSR         @R13
+    00000058 E426                   MOV         #38,R4
+    0000005A              L554:                             
+    0000005A 7E01                   ADD         #1,R14
+    0000005C 3EC3                   CMP/GE      R12,R14
+    0000005E 8BEB                   BF          L550
+         Mines.c    47            }
+         Mines.c    48        }
+         Mines.c    49    
+         Mines.c    50        Bdisp_SetPoint_VRAM(5, 4, 1);
+    00000060 DEAA                   MOV.L       L668+20,R14; _Bdisp_SetPoint_VRAM
+    00000062 E601                   MOV         #1,R6
+    00000064 E504                   MOV         #4,R5
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000066 4E0B                   JSR         @R14
+    00000068 E405                   MOV         #5,R4
+         Mines.c    51        Bdisp_SetPoint_VRAM(5, 9, 1);
+    0000006A E601                   MOV         #1,R6
+    0000006C E509                   MOV         #9,R5
+    0000006E 4E0B                   JSR         @R14
+    00000070 E405                   MOV         #5,R4
+         Mines.c    52        Bdisp_SetPoint_VRAM(10, 4, 1);
+    00000072 E601                   MOV         #1,R6
+    00000074 E504                   MOV         #4,R5
+    00000076 4E0B                   JSR         @R14
+    00000078 E40A                   MOV         #10,R4
+         Mines.c    53        Bdisp_SetPoint_VRAM(10, 9, 1);
+    0000007A E601                   MOV         #1,R6
+    0000007C E509                   MOV         #9,R5
+    0000007E 4E0B                   JSR         @R14
+    00000080 E40A                   MOV         #10,R4
+         Mines.c    54        Bdisp_DrawLineVRAM(5, 6, 5, 7);
+    00000082 E707                   MOV         #7,R7
+    00000084 E605                   MOV         #5,R6
+    00000086 E506                   MOV         #6,R5
+    00000088 4D0B                   JSR         @R13
+    0000008A 6463                   MOV         R6,R4
+         Mines.c    55        Bdisp_DrawLineVRAM(10, 6, 10, 7);
+    0000008C E707                   MOV         #7,R7
+    0000008E E60A                   MOV         #10,R6
+    00000090 E506                   MOV         #6,R5
+    00000092 4D0B                   JSR         @R13
+    00000094 6463                   MOV         R6,R4
+         Mines.c    56        Bdisp_DrawLineVRAM(6, 5, 6, 8);
+    00000096 E708                   MOV         #8,R7
+    00000098 E606                   MOV         #6,R6
+    0000009A E505                   MOV         #5,R5
+    0000009C 4D0B                   JSR         @R13
+    0000009E 6463                   MOV         R6,R4
+         Mines.c    57        Bdisp_DrawLineVRAM(7, 4, 7, 9);
+    000000A0 E709                   MOV         #9,R7
+    000000A2 E607                   MOV         #7,R6
+    000000A4 E504                   MOV         #4,R5
+    000000A6 4D0B                   JSR         @R13
+    000000A8 6463                   MOV         R6,R4
+         Mines.c    58        Bdisp_DrawLineVRAM(8, 4, 8, 9);
+    000000AA E709                   MOV         #9,R7
+    000000AC E608                   MOV         #8,R6
+    000000AE E504                   MOV         #4,R5
+    000000B0 4D0B                   JSR         @R13
+    000000B2 6463                   MOV         R6,R4
+         Mines.c    59        Bdisp_DrawLineVRAM(9, 5, 9, 8);
+    000000B4 E708                   MOV         #8,R7
+    000000B6 E609                   MOV         #9,R6
+    000000B8 E505                   MOV         #5,R5
+    000000BA 4D0B                   JSR         @R13
+    000000BC 6463                   MOV         R6,R4
+         Mines.c    60        Bdisp_SetPoint_VRAM(7, 6, 0);
+    000000BE E600                   MOV         #0,R6
+    000000C0 E506                   MOV         #6,R5
+    000000C2 4E0B                   JSR         @R14
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000C4 E407                   MOV         #7,R4
+         Mines.c    61    }
+    000000C6 4F26                   LDS.L       @R15+,PR
+    000000C8 6CF6                   MOV.L       @R15+,R12
+    000000CA 6DF6                   MOV.L       @R15+,R13
+    000000CC 000B                   RTS
+    000000CE 6EF6                   MOV.L       @R15+,R14
+         Mines.c    62    
+         Mines.c    63    void drawCellOutlines(int x, int y, int camX, int camY,
+    000000D0              _drawCellOutlines:               ; function: drawCellOutlines
+                                                           ; frame size=24
+    000000D0 2FE6                   MOV.L       R14,@-R15
+         Mines.c    64     int up, int down, int left, int right) {
+         Mines.c    65    
+         Mines.c    66        const sX = 79+10*(x-camX);
+    000000D2 3468                   SUB         R6,R4
+    000000D4 2FD6                   MOV.L       R13,@-R15
+         Mines.c    67        const sY = 27+10*(y-camY);
+    000000D6 3578                   SUB         R7,R5
+    000000D8 2FC6                   MOV.L       R12,@-R15
+    000000DA 6E43                   MOV         R4,R14
+    000000DC 2FB6                   MOV.L       R11,@-R15
+    000000DE 6343                   MOV         R4,R3
+    000000E0 2FA6                   MOV.L       R10,@-R15
+    000000E2 4E08                   SHLL2       R14
+    000000E4 4F22                   STS.L       PR,@-R15
+    000000E6 6D53                   MOV         R5,R13
+    000000E8 DA87                   MOV.L       L668+16,R10; _Bdisp_DrawLineVRAM
+    000000EA 3E3C                   ADD         R3,R14
+    000000EC 52F6                   MOV.L       @(24,R15),R2
+    000000EE 4D08                   SHLL2       R13
+    000000F0 4E00                   SHLL        R14
+    000000F2 7E4F                   ADD         #79,R14
+    000000F4 6353                   MOV         R5,R3
+    000000F6 3D3C                   ADD         R3,R13
+    000000F8 4D00                   SHLL        R13
+    000000FA 7D1B                   ADD         #27,R13
+    000000FC 6BE3                   MOV         R14,R11
+    000000FE 2228                   TST         R2,R2
+    00000100 8D05                   BT/S        L555
+    00000102 7B09                   ADD         #9,R11
+         Mines.c    68    
+         Mines.c    69        if(up) {
+         Mines.c    70            Bdisp_DrawLineVRAM(sX, sY, sX+9, sY);
+    00000104 67D3                   MOV         R13,R7
+    00000106 66B3                   MOV         R11,R6
+    00000108 65D3                   MOV         R13,R5
+    0000010A 4A0B                   JSR         @R10
+    0000010C 64E3                   MOV         R14,R4
+    0000010E              L555:                             
+    0000010E 6CD3                   MOV         R13,R12
+    00000110 53F7                   MOV.L       @(28,R15),R3
+    00000112 2338                   TST         R3,R3
+    00000114 8D05                   BT/S        L556
+    00000116 7C09                   ADD         #9,R12
+         Mines.c    71        }
+         Mines.c    72        if(down) {
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         Mines.c    73            Bdisp_DrawLineVRAM(sX, sY+9, sX+9, sY+9);
+    00000118 67C3                   MOV         R12,R7
+    0000011A 66B3                   MOV         R11,R6
+    0000011C 65C3                   MOV         R12,R5
+    0000011E 4A0B                   JSR         @R10
+    00000120 64E3                   MOV         R14,R4
+    00000122              L556:                             
+         Mines.c    74        }
+         Mines.c    75        if(left) {
+    00000122 53F8                   MOV.L       @(32,R15),R3
+    00000124 2338                   TST         R3,R3
+    00000126 8904                   BT          L557
+         Mines.c    76            Bdisp_DrawLineVRAM(sX, sY, sX, sY+9);
+    00000128 67C3                   MOV         R12,R7
+    0000012A 66E3                   MOV         R14,R6
+    0000012C 65D3                   MOV         R13,R5
+    0000012E 4A0B                   JSR         @R10
+    00000130 64E3                   MOV         R14,R4
+    00000132              L557:                             
+         Mines.c    77        }
+         Mines.c    78        if(right) {
+    00000132 53F9                   MOV.L       @(36,R15),R3
+    00000134 2338                   TST         R3,R3
+    00000136 8904                   BT          L558
+         Mines.c    79            Bdisp_DrawLineVRAM(sX+9, sY, sX+9, sY+9);
+    00000138 67C3                   MOV         R12,R7
+    0000013A 66B3                   MOV         R11,R6
+    0000013C 65D3                   MOV         R13,R5
+    0000013E 4A0B                   JSR         @R10
+    00000140 64B3                   MOV         R11,R4
+    00000142              L558:                             
+         Mines.c    80        }
+         Mines.c    81        
+         Mines.c    82    }
+    00000142 4F26                   LDS.L       @R15+,PR
+    00000144 6AF6                   MOV.L       @R15+,R10
+    00000146 6BF6                   MOV.L       @R15+,R11
+    00000148 6CF6                   MOV.L       @R15+,R12
+    0000014A 6DF6                   MOV.L       @R15+,R13
+    0000014C 000B                   RTS
+    0000014E 6EF6                   MOV.L       @R15+,R14
+         Mines.c    83    
+         Mines.c    84    // state: 0 = hidden, 1 = revealed, 2 = flagged
+         Mines.c    85    void drawCell(int x, int y, int camX, int camY, int num, int state, int dead) {
+    00000150              _drawCell:                       ; function: drawCell
+                                                           ; frame size=96
+    00000150 2FE6                   MOV.L       R14,@-R15
+         Mines.c    86        const sX = 79+10*(x-camX);
+    00000152 6343                   MOV         R4,R3
+    00000154 2FD6                   MOV.L       R13,@-R15
+    00000156 3368                   SUB         R6,R3
+    00000158 2FC6                   MOV.L       R12,@-R15
+    0000015A 6233                   MOV         R3,R2
+    0000015C 2FB6                   MOV.L       R11,@-R15
+    0000015E 4308                   SHLL2       R3
+    00000160 2FA6                   MOV.L       R10,@-R15
+    00000162 332C                   ADD         R2,R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE    6
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000164 2F96                   MOV.L       R9,@-R15
+    00000166 4300                   SHLL        R3
+    00000168 2F86                   MOV.L       R8,@-R15
+         Mines.c    87        const sY = 27+10*(y-camY);
+    0000016A 6253                   MOV         R5,R2
+    0000016C 4F22                   STS.L       PR,@-R15
+    0000016E 734F                   ADD         #79,R3
+    00000170 7FD0                   ADD         #-48,R15
+    00000172 3278                   SUB         R7,R2
+    00000174 1F39                   MOV.L       R3,@(36,R15)
+    00000176 6123                   MOV         R2,R1
+    00000178 4208                   SHLL2       R2
+    0000017A 321C                   ADD         R1,R2
+    0000017C 4200                   SHLL        R2
+    0000017E 721B                   ADD         #27,R2
+    00000180 1F2A                   MOV.L       R2,@(40,R15)
+         Mines.c    88        drawCellOutlines(x, y, camX, camY, 1, 1, 1, 1);
+    00000182 E101                   MOV         #1,R1
+    00000184 2F16                   MOV.L       R1,@-R15
+    00000186 2F16                   MOV.L       R1,@-R15
+    00000188 2F16                   MOV.L       R1,@-R15
+    0000018A BFA1                   BSR         _drawCellOutlines
+    0000018C 2F16                   MOV.L       R1,@-R15
+    0000018E 7F10                   ADD         #16,R15
+    00000190 DE5D                   MOV.L       L668+16,R14; _Bdisp_DrawLineVRAM
+    00000192 50FA                   MOV.L       @(40,R15),R0
+    00000194 7001                   ADD         #1,R0
+    00000196 1F06                   MOV.L       R0,@(24,R15)
+    00000198 50F9                   MOV.L       @(36,R15),R0
+    0000019A 7002                   ADD         #2,R0
+    0000019C 1F0B                   MOV.L       R0,@(44,R15)
+    0000019E 5CFA                   MOV.L       @(40,R15),R12
+    000001A0 50F9                   MOV.L       @(36,R15),R0
+    000001A2 7C02                   ADD         #2,R12
+    000001A4 7001                   ADD         #1,R0
+    000001A6 1F05                   MOV.L       R0,@(20,R15)
+    000001A8 5BF9                   MOV.L       @(36,R15),R11
+    000001AA 7B04                   ADD         #4,R11
+    000001AC 50FA                   MOV.L       @(40,R15),R0
+    000001AE 7004                   ADD         #4,R0
+    000001B0 2F02                   MOV.L       R0,@R15
+    000001B2 5DF9                   MOV.L       @(36,R15),R13
+    000001B4 50FA                   MOV.L       @(40,R15),R0
+    000001B6 7D06                   ADD         #6,R13
+    000001B8 7006                   ADD         #6,R0
+    000001BA 1F01                   MOV.L       R0,@(4,R15)
+    000001BC 50F9                   MOV.L       @(36,R15),R0
+    000001BE 7008                   ADD         #8,R0
+    000001C0 1F04                   MOV.L       R0,@(16,R15)
+    000001C2 50FA                   MOV.L       @(40,R15),R0
+    000001C4 7008                   ADD         #8,R0
+    000001C6 1F07                   MOV.L       R0,@(28,R15)
+    000001C8 50FA                   MOV.L       @(40,R15),R0
+    000001CA 7003                   ADD         #3,R0
+    000001CC 1F02                   MOV.L       R0,@(8,R15)
+    000001CE 58F9                   MOV.L       @(36,R15),R8
+    000001D0 50FA                   MOV.L       @(40,R15),R0
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE    7
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000001D2 7803                   ADD         #3,R8
+    000001D4 7005                   ADD         #5,R0
+    000001D6 1F03                   MOV.L       R0,@(12,R15)
+    000001D8 59F9                   MOV.L       @(36,R15),R9
+    000001DA 7905                   ADD         #5,R9
+    000001DC 5AFA                   MOV.L       @(40,R15),R10
+    000001DE 50F9                   MOV.L       @(36,R15),R0
+    000001E0 7007                   ADD         #7,R0
+    000001E2 1F08                   MOV.L       R0,@(32,R15)
+    000001E4 E054                   MOV         #84,R0
+    000001E6 00FE                   MOV.L       @(R0,R15),R0
+    000001E8 8800                   CMP/EQ      #0,R0
+    000001EA 8D0A                   BT/S        L509
+    000001EC 7A07                   ADD         #7,R10
+    000001EE 8801                   CMP/EQ      #1,R0
+    000001F0 8B01                   BF          L669
+    000001F2 A08D                   BRA         L510
+    000001F4 0009                   NOP
+    000001F6              L669:                             
+    000001F6 8802                   CMP/EQ      #2,R0
+    000001F8 8B01                   BF          L670
+    000001FA A1A3                   BRA         L521
+    000001FC 0009                   NOP
+    000001FE              L670:                             
+    000001FE A1DB                   BRA         L559
+    00000200 0009                   NOP
+    00000202              L509:                            ; case label 
+         Mines.c    89        switch(state) {
+         Mines.c    90            case 0:  // Hidden tile, draw checker pattern
+         Mines.c    91                if((!dead) || (dead && num != -1)) {
+    00000202 E058                   MOV         #88,R0
+    00000204 03FE                   MOV.L       @(R0,R15),R3
+    00000206 2338                   TST         R3,R3
+    00000208 8907                   BT          L561
+    0000020A E058                   MOV         #88,R0
+    0000020C 03FE                   MOV.L       @(R0,R15),R3
+    0000020E 2338                   TST         R3,R3
+    00000210 8926                   BT          L560
+    00000212 E050                   MOV         #80,R0
+    00000214 00FE                   MOV.L       @(R0,R15),R0
+    00000216 88FF                   CMP/EQ      #-1,R0
+    00000218 8922                   BT          L560
+    0000021A              L561:                             
+         Mines.c    92                    Bdisp_DrawLineVRAM(sX+1, sY+2, sX+2, sY+1);
+    0000021A 65C3                   MOV         R12,R5
+    0000021C 57F6                   MOV.L       @(24,R15),R7
+    0000021E 56FB                   MOV.L       @(44,R15),R6
+    00000220 4E0B                   JSR         @R14
+    00000222 54F5                   MOV.L       @(20,R15),R4
+         Mines.c    93                    Bdisp_DrawLineVRAM(sX+1, sY+4, sX+4, sY+1);
+    00000224 57F6                   MOV.L       @(24,R15),R7
+    00000226 66B3                   MOV         R11,R6
+    00000228 65F2                   MOV.L       @R15,R5
+    0000022A 4E0B                   JSR         @R14
+    0000022C 54F5                   MOV.L       @(20,R15),R4
+         Mines.c    94                    Bdisp_DrawLineVRAM(sX+1, sY+6, sX+6, sY+1);
+    0000022E 66D3                   MOV         R13,R6
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE    8
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000230 55F1                   MOV.L       @(4,R15),R5
+    00000232 57F6                   MOV.L       @(24,R15),R7
+    00000234 4E0B                   JSR         @R14
+    00000236 54F5                   MOV.L       @(20,R15),R4
+         Mines.c    95                    Bdisp_DrawLineVRAM(sX+1, sY+8, sX+8, sY+1);
+    00000238 57F6                   MOV.L       @(24,R15),R7
+    0000023A 56F4                   MOV.L       @(16,R15),R6
+    0000023C 55F7                   MOV.L       @(28,R15),R5
+    0000023E 4E0B                   JSR         @R14
+    00000240 54F5                   MOV.L       @(20,R15),R4
+         Mines.c    96                    Bdisp_DrawLineVRAM(sX+3, sY+8, sX+8, sY+3);
+    00000242 57F2                   MOV.L       @(8,R15),R7
+    00000244 56F4                   MOV.L       @(16,R15),R6
+    00000246 55F7                   MOV.L       @(28,R15),R5
+    00000248 4E0B                   JSR         @R14
+    0000024A 6483                   MOV         R8,R4
+         Mines.c    97                    Bdisp_DrawLineVRAM(sX+5, sY+8, sX+8, sY+5);
+    0000024C 57F3                   MOV.L       @(12,R15),R7
+    0000024E 56F4                   MOV.L       @(16,R15),R6
+    00000250 55F7                   MOV.L       @(28,R15),R5
+    00000252 4E0B                   JSR         @R14
+    00000254 6493                   MOV         R9,R4
+         Mines.c    98                    Bdisp_DrawLineVRAM(sX+7, sY+8, sX+8, sY+7);
+    00000256 67A3                   MOV         R10,R7
+    00000258 56F4                   MOV.L       @(16,R15),R6
+    0000025A 55F7                   MOV.L       @(28,R15),R5
+    0000025C A115                   BRA         L661
+    0000025E 54F8                   MOV.L       @(32,R15),R4
+    00000260              L560:                             
+         Mines.c    99                }
+         Mines.c   100                else if(dead && num == -1) {  // Show mine on unrevealed square
+    00000260 E058                   MOV         #88,R0
+    00000262 02FE                   MOV.L       @(R0,R15),R2
+    00000264 2228                   TST         R2,R2
+    00000266 8B01                   BF          L671
+    00000268 A1A6                   BRA         L559
+    0000026A 0009                   NOP
+    0000026C              L671:                             
+    0000026C E050                   MOV         #80,R0
+    0000026E 00FE                   MOV.L       @(R0,R15),R0
+    00000270 88FF                   CMP/EQ      #-1,R0
+    00000272 8901                   BT          L672
+    00000274 A1A0                   BRA         L559
+    00000276 0009                   NOP
+    00000278              L672:                             
+         Mines.c   101                    Bdisp_SetPoint_VRAM(sX+2, sY+2, 1);
+    00000278 D324                   MOV.L       L668+20,R3 ; _Bdisp_SetPoint_VRAM
+    0000027A E601                   MOV         #1,R6
+    0000027C 65C3                   MOV         R12,R5
+    0000027E 430B                   JSR         @R3
+    00000280 54FB                   MOV.L       @(44,R15),R4
+         Mines.c   102                    Bdisp_SetPoint_VRAM(sX+2, sY+7, 1);
+    00000282 E601                   MOV         #1,R6
+    00000284 D321                   MOV.L       L668+20,R3 ; _Bdisp_SetPoint_VRAM
+    00000286 65A3                   MOV         R10,R5
+    00000288 430B                   JSR         @R3
+    0000028A 54FB                   MOV.L       @(44,R15),R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE    9
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         Mines.c   103                    Bdisp_SetPoint_VRAM(sX+7, sY+2, 1);
+    0000028C D31F                   MOV.L       L668+20,R3 ; _Bdisp_SetPoint_VRAM
+    0000028E E601                   MOV         #1,R6
+    00000290 65C3                   MOV         R12,R5
+    00000292 430B                   JSR         @R3
+    00000294 54F8                   MOV.L       @(32,R15),R4
+         Mines.c   104                    Bdisp_SetPoint_VRAM(sX+7, sY+7, 1);
+    00000296 E601                   MOV         #1,R6
+    00000298 D31C                   MOV.L       L668+20,R3 ; _Bdisp_SetPoint_VRAM
+    0000029A 65A3                   MOV         R10,R5
+    0000029C 430B                   JSR         @R3
+    0000029E 54F8                   MOV.L       @(32,R15),R4
+         Mines.c   105                    Bdisp_DrawLineVRAM(sX+2, sY+4, sX+2, sY+5);
+    000002A0 57F3                   MOV.L       @(12,R15),R7
+    000002A2 56FB                   MOV.L       @(44,R15),R6
+    000002A4 65F2                   MOV.L       @R15,R5
+    000002A6 4E0B                   JSR         @R14
+    000002A8 6463                   MOV         R6,R4
+         Mines.c   106                    Bdisp_DrawLineVRAM(sX+3, sY+3, sX+3, sY+6);
+    000002AA 6683                   MOV         R8,R6
+    000002AC 55F2                   MOV.L       @(8,R15),R5
+    000002AE 57F1                   MOV.L       @(4,R15),R7
+    000002B0 4E0B                   JSR         @R14
+    000002B2 6483                   MOV         R8,R4
+         Mines.c   107                    Bdisp_DrawLineVRAM(sX+4, sY+2, sX+4, sY+7);
+    000002B4 67A3                   MOV         R10,R7
+    000002B6 66B3                   MOV         R11,R6
+    000002B8 65C3                   MOV         R12,R5
+    000002BA 4E0B                   JSR         @R14
+    000002BC 64B3                   MOV         R11,R4
+         Mines.c   108                    Bdisp_DrawLineVRAM(sX+5, sY+2, sX+5, sY+7);
+    000002BE 67A3                   MOV         R10,R7
+    000002C0 6693                   MOV         R9,R6
+    000002C2 65C3                   MOV         R12,R5
+    000002C4 4E0B                   JSR         @R14
+    000002C6 6493                   MOV         R9,R4
+         Mines.c   109                    Bdisp_DrawLineVRAM(sX+6, sY+3, sX+6, sY+6);
+    000002C8 57F1                   MOV.L       @(4,R15),R7
+    000002CA 66D3                   MOV         R13,R6
+    000002CC 55F2                   MOV.L       @(8,R15),R5
+    000002CE 4E0B                   JSR         @R14
+    000002D0 64D3                   MOV         R13,R4
+         Mines.c   110                    Bdisp_DrawLineVRAM(sX+7, sY+4, sX+7, sY+5);
+    000002D2 57F3                   MOV.L       @(12,R15),R7
+    000002D4 56F8                   MOV.L       @(32,R15),R6
+    000002D6 65F2                   MOV.L       @R15,R5
+    000002D8 4E0B                   JSR         @R14
+    000002DA 6463                   MOV         R6,R4
+         Mines.c   111                    Bdisp_SetPoint_VRAM(sX+4, sY+4, 0);
+    000002DC 65F2                   MOV.L       @R15,R5
+    000002DE 64B3                   MOV         R11,R4
+    000002E0 D30A                   MOV.L       L668+20,R3 ; _Bdisp_SetPoint_VRAM
+    000002E2 E600                   MOV         #0,R6
+    000002E4 7F30                   ADD         #48,R15
+    000002E6 4F26                   LDS.L       @R15+,PR
+    000002E8 68F6                   MOV.L       @R15+,R8
+    000002EA 69F6                   MOV.L       @R15+,R9
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   10
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000002EC 6AF6                   MOV.L       @R15+,R10
+    000002EE 6BF6                   MOV.L       @R15+,R11
+    000002F0 6CF6                   MOV.L       @R15+,R12
+    000002F2 6DF6                   MOV.L       @R15+,R13
+    000002F4 432B                   JMP         @R3
+    000002F6 6EF6                   MOV.L       @R15+,R14
+    000002F8              L668:                             
+    000002F8 <00000000>             .DATA.L     _rSeed
+    000002FC 0019660D               .DATA.L     H'0019660D
+    00000300 3C6EF35F               .DATA.L     H'3C6EF35F
+    00000304 <00000000>             .DATA.L     __modlu
+    00000308 <00000000>             .DATA.L     _Bdisp_DrawLineVRAM
+    0000030C <00000000>             .DATA.L     _Bdisp_SetPoint_VRAM
+    00000310              L510:                            ; case label 
+         Mines.c   112                }
+         Mines.c   113                break;
+         Mines.c   114            case 1:  // Revealed tile, draw numbers
+         Mines.c   115                switch(num) {
+    00000310 E050                   MOV         #80,R0
+    00000312 00FE                   MOV.L       @(R0,R15),R0
+    00000314 8801                   CMP/EQ      #1,R0
+    00000316 891B                   BT          L511
+    00000318 8802                   CMP/EQ      #2,R0
+    0000031A 8927                   BT          L512
+    0000031C 8803                   CMP/EQ      #3,R0
+    0000031E 8939                   BT          L513
+    00000320 8804                   CMP/EQ      #4,R0
+    00000322 8955                   BT          L514
+    00000324 8805                   CMP/EQ      #5,R0
+    00000326 8962                   BT          L515
+    00000328 8806                   CMP/EQ      #6,R0
+    0000032A 897D                   BT          L516
+    0000032C 8807                   CMP/EQ      #7,R0
+    0000032E 8B01                   BF          L673
+    00000330 A098                   BRA         L517
+    00000332 0009                   NOP
+    00000334              L673:                             
+    00000334 8808                   CMP/EQ      #8,R0
+    00000336 8B01                   BF          L674
+    00000338 A0AB                   BRA         L518
+    0000033A 0009                   NOP
+    0000033C              L674:                             
+    0000033C 88FF                   CMP/EQ      #-1,R0
+    0000033E 8B01                   BF          L675
+    00000340 A0C9                   BRA         L519
+    00000342 0009                   NOP
+    00000344              L675:                             
+    00000344 8800                   CMP/EQ      #0,R0
+    00000346 8B01                   BF          L676
+    00000348 A136                   BRA         L559
+    0000034A 0009                   NOP
+    0000034C              L676:                             
+    0000034C A134                   BRA         L559
+    0000034E 0009                   NOP
+    00000350              L511:                            ; case label 
+         Mines.c   116                    case 1:
+         Mines.c   117                        //Bdisp_SetPoint_VRAM(sX+4, sY+2, 1);  // This line is cursed
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   11
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         Mines.c   118                        Bdisp_DrawLineVRAM(sX+5, sY+2, sX+5, sY+6);
+    00000350 57F1                   MOV.L       @(4,R15),R7
+    00000352 6693                   MOV         R9,R6
+    00000354 65C3                   MOV         R12,R5
+    00000356 4E0B                   JSR         @R14
+    00000358 6493                   MOV         R9,R4
+         Mines.c   119                        Bdisp_DrawLineVRAM(sX+4, sY+7, sX+6, sY+7);
+    0000035A 67A3                   MOV         R10,R7
+    0000035C 66D3                   MOV         R13,R6
+    0000035E 65A3                   MOV         R10,R5
+    00000360 4E0B                   JSR         @R14
+    00000362 64B3                   MOV         R11,R4
+         Mines.c   120                        Bdisp_DrawLineVRAM(sX+4, sY+2, sX+5, sY+2);
+    00000364 67C3                   MOV         R12,R7
+    00000366 6693                   MOV         R9,R6
+         Mines.c   121                        break;
+    00000368 A030                   BRA         L662
+    0000036A 65C3                   MOV         R12,R5
+    0000036C              L512:                            ; case label 
+         Mines.c   122                    case 2:
+         Mines.c   123                        Bdisp_DrawLineVRAM(sX+3, sY+3, sX+4, sY+2);
+    0000036C 55F2                   MOV.L       @(8,R15),R5
+    0000036E 67C3                   MOV         R12,R7
+    00000370 66B3                   MOV         R11,R6
+    00000372 4E0B                   JSR         @R14
+    00000374 6483                   MOV         R8,R4
+         Mines.c   124                        Bdisp_DrawLineVRAM(sX+5, sY+2, sX+6, sY+3);
+    00000376 66D3                   MOV         R13,R6
+    00000378 57F2                   MOV.L       @(8,R15),R7
+    0000037A 65C3                   MOV         R12,R5
+    0000037C 4E0B                   JSR         @R14
+    0000037E 6493                   MOV         R9,R4
+         Mines.c   125                        Bdisp_DrawLineVRAM(sX+6, sY+4, sX+4, sY+6);
+    00000380 57F1                   MOV.L       @(4,R15),R7
+    00000382 66B3                   MOV         R11,R6
+    00000384 65F2                   MOV.L       @R15,R5
+    00000386 4E0B                   JSR         @R14
+    00000388 64D3                   MOV         R13,R4
+         Mines.c   126                        Bdisp_DrawLineVRAM(sX+3, sY+7, sX+6, sY+7);
+    0000038A 67A3                   MOV         R10,R7
+    0000038C 66D3                   MOV         R13,R6
+    0000038E 65A3                   MOV         R10,R5
+         Mines.c   127                        break;
+    00000390 A07B                   BRA         L661
+    00000392 6483                   MOV         R8,R4
+    00000394              L513:                            ; case label 
+         Mines.c   128                    case 3:
+         Mines.c   129                        Bdisp_DrawLineVRAM(sX+3, sY+2, sX+5, sY+2);
+    00000394 67C3                   MOV         R12,R7
+    00000396 6693                   MOV         R9,R6
+    00000398 65C3                   MOV         R12,R5
+    0000039A 4E0B                   JSR         @R14
+    0000039C 6483                   MOV         R8,R4
+         Mines.c   130                        Bdisp_DrawLineVRAM(sX+6, sY+2, sX+6, sY+3);
+    0000039E 66D3                   MOV         R13,R6
+    000003A0 57F2                   MOV.L       @(8,R15),R7
+    000003A2 65C3                   MOV         R12,R5
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   12
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000003A4 4E0B                   JSR         @R14
+    000003A6 64D3                   MOV         R13,R4
+         Mines.c   131                        Bdisp_DrawLineVRAM(sX+4, sY+4, sX+5, sY+4);
+    000003A8 67F2                   MOV.L       @R15,R7
+    000003AA 6693                   MOV         R9,R6
+    000003AC 6573                   MOV         R7,R5
+    000003AE 4E0B                   JSR         @R14
+    000003B0 64B3                   MOV         R11,R4
+         Mines.c   132                        Bdisp_DrawLineVRAM(sX+6, sY+5, sX+6, sY+6);
+    000003B2 66D3                   MOV         R13,R6
+    000003B4 55F3                   MOV.L       @(12,R15),R5
+    000003B6 57F1                   MOV.L       @(4,R15),R7
+    000003B8 4E0B                   JSR         @R14
+    000003BA 64D3                   MOV         R13,R4
+         Mines.c   133                        Bdisp_DrawLineVRAM(sX+3, sY+6, sX+4, sY+7);
+    000003BC 55F1                   MOV.L       @(4,R15),R5
+    000003BE 67A3                   MOV         R10,R7
+    000003C0 66B3                   MOV         R11,R6
+    000003C2 4E0B                   JSR         @R14
+    000003C4 6483                   MOV         R8,R4
+         Mines.c   134                        Bdisp_DrawLineVRAM(sX+4, sY+7, sX+5, sY+7);
+    000003C6 67A3                   MOV         R10,R7
+    000003C8 6693                   MOV         R9,R6
+    000003CA 65A3                   MOV         R10,R5
+         Mines.c   135                        break;
+    000003CC              L662:                             
+    000003CC A05D                   BRA         L661
+    000003CE 64B3                   MOV         R11,R4
+    000003D0              L514:                            ; case label 
+         Mines.c   136                    case 4:
+         Mines.c   137                        Bdisp_DrawLineVRAM(sX+3, sY+2, sX+3, sY+5);
+    000003D0 57F3                   MOV.L       @(12,R15),R7
+    000003D2 6683                   MOV         R8,R6
+    000003D4 65C3                   MOV         R12,R5
+    000003D6 4E0B                   JSR         @R14
+    000003D8 6483                   MOV         R8,R4
+         Mines.c   138                        Bdisp_DrawLineVRAM(sX+4, sY+5, sX+6, sY+5);
+    000003DA 66D3                   MOV         R13,R6
+    000003DC 57F3                   MOV.L       @(12,R15),R7
+    000003DE 6573                   MOV         R7,R5
+    000003E0 4E0B                   JSR         @R14
+    000003E2 64B3                   MOV         R11,R4
+         Mines.c   139                        Bdisp_DrawLineVRAM(sX+5, sY+3, sX+5, sY+7);
+    000003E4 55F2                   MOV.L       @(8,R15),R5
+    000003E6 67A3                   MOV         R10,R7
+    000003E8 6693                   MOV         R9,R6
+         Mines.c   140                        break;
+    000003EA A04E                   BRA         L661
+    000003EC 6493                   MOV         R9,R4
+    000003EE              L515:                            ; case label 
+         Mines.c   141                    case 5:
+         Mines.c   142                        Bdisp_DrawLineVRAM(sX+3, sY+2, sX+6, sY+2);
+    000003EE 67C3                   MOV         R12,R7
+    000003F0 66D3                   MOV         R13,R6
+    000003F2 65C3                   MOV         R12,R5
+    000003F4 4E0B                   JSR         @R14
+    000003F6 6483                   MOV         R8,R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   13
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         Mines.c   143                        Bdisp_DrawLineVRAM(sX+3, sY+3, sX+3, sY+4);
+    000003F8 67F2                   MOV.L       @R15,R7
+    000003FA 6683                   MOV         R8,R6
+    000003FC 55F2                   MOV.L       @(8,R15),R5
+    000003FE 4E0B                   JSR         @R14
+    00000400 6483                   MOV         R8,R4
+         Mines.c   144                        Bdisp_DrawLineVRAM(sX+4, sY+4, sX+5, sY+4);
+    00000402 6693                   MOV         R9,R6
+    00000404 67F2                   MOV.L       @R15,R7
+    00000406 6573                   MOV         R7,R5
+    00000408 4E0B                   JSR         @R14
+    0000040A 64B3                   MOV         R11,R4
+         Mines.c   145                        Bdisp_DrawLineVRAM(sX+6, sY+5, sX+6, sY+6);
+    0000040C 57F1                   MOV.L       @(4,R15),R7
+    0000040E 66D3                   MOV         R13,R6
+    00000410 55F3                   MOV.L       @(12,R15),R5
+    00000412 4E0B                   JSR         @R14
+    00000414 64D3                   MOV         R13,R4
+         Mines.c   146                        Bdisp_DrawLineVRAM(sX+4, sY+7, sX+5, sY+7);
+    00000416 67A3                   MOV         R10,R7
+    00000418 6693                   MOV         R9,R6
+    0000041A 65A3                   MOV         R10,R5
+    0000041C 4E0B                   JSR         @R14
+    0000041E 64B3                   MOV         R11,R4
+         Mines.c   147                        Bdisp_SetPoint_VRAM(sX+3, sY+6, 1);
+    00000420 55F1                   MOV.L       @(4,R15),R5
+    00000422 E601                   MOV         #1,R6
+         Mines.c   148                        break;
+    00000424 A083                   BRA         L660
+    00000426 6483                   MOV         R8,R4
+    00000428              L516:                            ; case label 
+         Mines.c   149                    case 6:
+         Mines.c   150                        Bdisp_SetPoint_VRAM(sX+6, sY+3, 1);
+    00000428 55F2                   MOV.L       @(8,R15),R5
+    0000042A E601                   MOV         #1,R6
+    0000042C D370                   MOV.L       L677+2,R3  ; _Bdisp_SetPoint_VRAM
+    0000042E 430B                   JSR         @R3
+    00000430 64D3                   MOV         R13,R4
+         Mines.c   151                        Bdisp_DrawLineVRAM(sX+4, sY+2, sX+5, sY+2);
+    00000432 67C3                   MOV         R12,R7
+    00000434 6693                   MOV         R9,R6
+    00000436 65C3                   MOV         R12,R5
+    00000438 4E0B                   JSR         @R14
+    0000043A 64B3                   MOV         R11,R4
+         Mines.c   152                        Bdisp_DrawLineVRAM(sX+3, sY+3, sX+3, sY+6);
+    0000043C 57F1                   MOV.L       @(4,R15),R7
+    0000043E 6683                   MOV         R8,R6
+    00000440 55F2                   MOV.L       @(8,R15),R5
+    00000442 4E0B                   JSR         @R14
+    00000444 6483                   MOV         R8,R4
+         Mines.c   153                        Bdisp_DrawLineVRAM(sX+4, sY+5, sX+5, sY+5);
+    00000446 6693                   MOV         R9,R6
+    00000448 57F3                   MOV.L       @(12,R15),R7
+    0000044A 6573                   MOV         R7,R5
+    0000044C 4E0B                   JSR         @R14
+    0000044E 64B3                   MOV         R11,R4
+         Mines.c   154                        Bdisp_SetPoint_VRAM(sX+6, sY+6, 1);
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   14
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000450 55F1                   MOV.L       @(4,R15),R5
+    00000452 E601                   MOV         #1,R6
+    00000454 D366                   MOV.L       L677+2,R3  ; _Bdisp_SetPoint_VRAM
+    00000456 430B                   JSR         @R3
+    00000458 64D3                   MOV         R13,R4
+         Mines.c   155                        Bdisp_DrawLineVRAM(sX+4, sY+7, sX+5, sY+7);
+    0000045A 67A3                   MOV         R10,R7
+    0000045C 6693                   MOV         R9,R6
+    0000045E 65A3                   MOV         R10,R5
+         Mines.c   156                        break;
+    00000460 A013                   BRA         L661
+    00000462 64B3                   MOV         R11,R4
+    00000464              L517:                            ; case label 
+         Mines.c   157                    case 7:
+         Mines.c   158                        Bdisp_DrawLineVRAM(sX+3, sY+2, sX+3, sY+4);
+    00000464 67F2                   MOV.L       @R15,R7
+    00000466 6683                   MOV         R8,R6
+    00000468 65C3                   MOV         R12,R5
+    0000046A 4E0B                   JSR         @R14
+    0000046C 6483                   MOV         R8,R4
+         Mines.c   159                        Bdisp_DrawLineVRAM(sX+4, sY+2, sX+6, sY+2);
+    0000046E 67C3                   MOV         R12,R7
+    00000470 66D3                   MOV         R13,R6
+    00000472 65C3                   MOV         R12,R5
+    00000474 4E0B                   JSR         @R14
+    00000476 64B3                   MOV         R11,R4
+         Mines.c   160                        Bdisp_DrawLineVRAM(sX+6, sY+2, sX+6, sY+4);
+    00000478 67F2                   MOV.L       @R15,R7
+    0000047A 66D3                   MOV         R13,R6
+    0000047C 65C3                   MOV         R12,R5
+    0000047E 4E0B                   JSR         @R14
+    00000480 64D3                   MOV         R13,R4
+         Mines.c   161                        Bdisp_DrawLineVRAM(sX+5, sY+5, sX+5, sY+7);
+    00000482 67A3                   MOV         R10,R7
+    00000484 55F3                   MOV.L       @(12,R15),R5
+    00000486 6493                   MOV         R9,R4
+    00000488 6693                   MOV         R9,R6
+         Mines.c   162                        break;
+    0000048A              L661:                             
+    0000048A 4E0B                   JSR         @R14
+    0000048C 0009                   NOP
+    0000048E A093                   BRA         L559
+    00000490 0009                   NOP
+    00000492              L518:                            ; case label 
+         Mines.c   163                    case 8:
+         Mines.c   164                        Bdisp_DrawLineVRAM(sX+4, sY+2, sX+5, sY+2);
+    00000492 67C3                   MOV         R12,R7
+    00000494 6693                   MOV         R9,R6
+    00000496 65C3                   MOV         R12,R5
+    00000498 4E0B                   JSR         @R14
+    0000049A 64B3                   MOV         R11,R4
+         Mines.c   165                        Bdisp_DrawLineVRAM(sX+4, sY+4, sX+5, sY+4);
+    0000049C 67F2                   MOV.L       @R15,R7
+    0000049E 6693                   MOV         R9,R6
+    000004A0 6573                   MOV         R7,R5
+    000004A2 4E0B                   JSR         @R14
+    000004A4 64B3                   MOV         R11,R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   15
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         Mines.c   166                        Bdisp_DrawLineVRAM(sX+4, sY+7, sX+5, sY+7);
+    000004A6 67A3                   MOV         R10,R7
+    000004A8 6693                   MOV         R9,R6
+    000004AA 65A3                   MOV         R10,R5
+    000004AC 4E0B                   JSR         @R14
+    000004AE 64B3                   MOV         R11,R4
+         Mines.c   167                        Bdisp_DrawLineVRAM(sX+3, sY+5, sX+3, sY+6);
+    000004B0 57F1                   MOV.L       @(4,R15),R7
+    000004B2 6683                   MOV         R8,R6
+    000004B4 55F3                   MOV.L       @(12,R15),R5
+    000004B6 4E0B                   JSR         @R14
+    000004B8 6483                   MOV         R8,R4
+         Mines.c   168                        Bdisp_DrawLineVRAM(sX+6, sY+5, sX+6, sY+6);
+    000004BA 66D3                   MOV         R13,R6
+    000004BC 55F3                   MOV.L       @(12,R15),R5
+    000004BE 57F1                   MOV.L       @(4,R15),R7
+    000004C0 4E0B                   JSR         @R14
+    000004C2 64D3                   MOV         R13,R4
+         Mines.c   169                        Bdisp_SetPoint_VRAM(sX+3, sY+3, 1);
+    000004C4 55F2                   MOV.L       @(8,R15),R5
+    000004C6 E601                   MOV         #1,R6
+    000004C8 D349                   MOV.L       L677+2,R3  ; _Bdisp_SetPoint_VRAM
+    000004CA 430B                   JSR         @R3
+    000004CC 6483                   MOV         R8,R4
+         Mines.c   170                        Bdisp_SetPoint_VRAM(sX+6, sY+3, 1);
+    000004CE E601                   MOV         #1,R6
+    000004D0 55F2                   MOV.L       @(8,R15),R5
+         Mines.c   171                        break;
+    000004D2 A02C                   BRA         L660
+    000004D4 64D3                   MOV         R13,R4
+    000004D6              L519:                            ; case label 
+         Mines.c   172                    case -1:
+         Mines.c   173                        Bdisp_DrawLineVRAM(sX+1, sY+1, sX+8, sY+1);
+    000004D6 57F6                   MOV.L       @(24,R15),R7
+    000004D8 56F4                   MOV.L       @(16,R15),R6
+    000004DA 6573                   MOV         R7,R5
+    000004DC 4E0B                   JSR         @R14
+    000004DE 54F5                   MOV.L       @(20,R15),R4
+         Mines.c   174                        Bdisp_DrawLineVRAM(sX+8, sY+1, sX+8, sY+8);
+    000004E0 57F7                   MOV.L       @(28,R15),R7
+    000004E2 56F4                   MOV.L       @(16,R15),R6
+    000004E4 55F6                   MOV.L       @(24,R15),R5
+    000004E6 4E0B                   JSR         @R14
+    000004E8 6463                   MOV         R6,R4
+         Mines.c   175                        Bdisp_DrawLineVRAM(sX+8, sY+8, sX+1, sY+8);
+    000004EA 59F7                   MOV.L       @(28,R15),R9
+    000004EC 56F5                   MOV.L       @(20,R15),R6
+    000004EE 6593                   MOV         R9,R5
+    000004F0 6793                   MOV         R9,R7
+    000004F2 4E0B                   JSR         @R14
+    000004F4 54F4                   MOV.L       @(16,R15),R4
+         Mines.c   176                        Bdisp_DrawLineVRAM(sX+1, sY+8, sX+1, sY+1);
+    000004F6 6593                   MOV         R9,R5
+    000004F8 57F6                   MOV.L       @(24,R15),R7
+    000004FA 56F5                   MOV.L       @(20,R15),R6
+    000004FC 4E0B                   JSR         @R14
+    000004FE 6463                   MOV         R6,R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   16
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         Mines.c   177                        Bdisp_DrawLineVRAM(sX+2, sY+3, sX+3, sY+2);
+    00000500 55F2                   MOV.L       @(8,R15),R5
+    00000502 67C3                   MOV         R12,R7
+    00000504 6683                   MOV         R8,R6
+    00000506 4E0B                   JSR         @R14
+    00000508 54FB                   MOV.L       @(44,R15),R4
+         Mines.c   178                        Bdisp_DrawLineVRAM(sX+2, sY+6, sX+3, sY+7);
+    0000050A 67A3                   MOV         R10,R7
+    0000050C 55F1                   MOV.L       @(4,R15),R5
+    0000050E 6683                   MOV         R8,R6
+    00000510 4E0B                   JSR         @R14
+    00000512 54FB                   MOV.L       @(44,R15),R4
+         Mines.c   179                        Bdisp_DrawLineVRAM(sX+6, sY+2, sX+7, sY+3);
+    00000514 57F2                   MOV.L       @(8,R15),R7
+    00000516 65C3                   MOV         R12,R5
+    00000518 56F8                   MOV.L       @(32,R15),R6
+    0000051A 4E0B                   JSR         @R14
+    0000051C 64D3                   MOV         R13,R4
+         Mines.c   180                        Bdisp_DrawLineVRAM(sX+6, sY+7, sX+7, sY+6);
+    0000051E 65A3                   MOV         R10,R5
+    00000520 57F1                   MOV.L       @(4,R15),R7
+    00000522 56F8                   MOV.L       @(32,R15),R6
+    00000524 4E0B                   JSR         @R14
+    00000526 64D3                   MOV         R13,R4
+         Mines.c   181                        Bdisp_SetPoint_VRAM(sX+4, sY+4, 1);
+    00000528 65F2                   MOV.L       @R15,R5
+    0000052A 64B3                   MOV         R11,R4
+    0000052C E601                   MOV         #1,R6
+         Mines.c   182                        break;
+    0000052E              L660:                             
+    0000052E 7F30                   ADD         #48,R15
+    00000530 D32F                   MOV.L       L677+2,R3  ; _Bdisp_SetPoint_VRAM
+    00000532 4F26                   LDS.L       @R15+,PR
+    00000534 68F6                   MOV.L       @R15+,R8
+    00000536 69F6                   MOV.L       @R15+,R9
+    00000538 6AF6                   MOV.L       @R15+,R10
+    0000053A 6BF6                   MOV.L       @R15+,R11
+    0000053C 6CF6                   MOV.L       @R15+,R12
+    0000053E 6DF6                   MOV.L       @R15+,R13
+    00000540 432B                   JMP         @R3
+    00000542 6EF6                   MOV.L       @R15+,R14
+    00000544              L521:                            ; case label 
+         Mines.c   183                    case 0:
+         Mines.c   184                        break;
+         Mines.c   185                }
+         Mines.c   186                break;
+         Mines.c   187            case 2:  // Flagged tile, draw flag
+         Mines.c   188                Bdisp_DrawLineVRAM(sX+4, sY+2, sX+6, sY+2);
+    00000544 67C3                   MOV         R12,R7
+    00000546 66D3                   MOV         R13,R6
+    00000548 65C3                   MOV         R12,R5
+    0000054A 4E0B                   JSR         @R14
+    0000054C 64B3                   MOV         R11,R4
+         Mines.c   189                Bdisp_DrawLineVRAM(sX+3, sY+3, sX+6, sY+3);
+    0000054E 66D3                   MOV         R13,R6
+    00000550 57F2                   MOV.L       @(8,R15),R7
+    00000552 6573                   MOV         R7,R5
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   17
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000554 4E0B                   JSR         @R14
+    00000556 6483                   MOV         R8,R4
+         Mines.c   190                Bdisp_DrawLineVRAM(sX+4, sY+4, sX+6, sY+4);
+    00000558 67F2                   MOV.L       @R15,R7
+    0000055A 66D3                   MOV         R13,R6
+    0000055C 6573                   MOV         R7,R5
+    0000055E 4E0B                   JSR         @R14
+    00000560 64B3                   MOV         R11,R4
+         Mines.c   191                Bdisp_DrawLineVRAM(sX+6, sY+5, sX+6, sY+6);
+    00000562 66D3                   MOV         R13,R6
+    00000564 55F3                   MOV.L       @(12,R15),R5
+    00000566 57F1                   MOV.L       @(4,R15),R7
+    00000568 4E0B                   JSR         @R14
+    0000056A 64D3                   MOV         R13,R4
+         Mines.c   192                Bdisp_DrawLineVRAM(sX+3, sY+7, sX+7, sY+7);
+    0000056C 56F8                   MOV.L       @(32,R15),R6
+    0000056E 65A3                   MOV         R10,R5
+    00000570 67A3                   MOV         R10,R7
+    00000572 4E0B                   JSR         @R14
+    00000574 6483                   MOV         R8,R4
+         Mines.c   193                if(dead && num != -1) {  // Show X on flagged square
+    00000576 E058                   MOV         #88,R0
+    00000578 03FE                   MOV.L       @(R0,R15),R3
+    0000057A 2338                   TST         R3,R3
+    0000057C 890D                   BT          L565
+    0000057E E050                   MOV         #80,R0
+    00000580 00FE                   MOV.L       @(R0,R15),R0
+    00000582 88FF                   CMP/EQ      #-1,R0
+    00000584 8909                   BT          L565
+         Mines.c   194                    Bdisp_DrawLineVRAM(sX+1, sY+1, sX+8, sY+8);
+    00000586 57F7                   MOV.L       @(28,R15),R7
+    00000588 56F4                   MOV.L       @(16,R15),R6
+    0000058A 55F6                   MOV.L       @(24,R15),R5
+    0000058C 4E0B                   JSR         @R14
+    0000058E 54F5                   MOV.L       @(20,R15),R4
+         Mines.c   195                    Bdisp_DrawLineVRAM(sX+1, sY+8, sX+8, sY+1);
+    00000590 57F6                   MOV.L       @(24,R15),R7
+    00000592 56F4                   MOV.L       @(16,R15),R6
+    00000594 55F7                   MOV.L       @(28,R15),R5
+    00000596 4E0B                   JSR         @R14
+    00000598 54F5                   MOV.L       @(20,R15),R4
+    0000059A              L565:                             
+         Mines.c   196                }
+         Mines.c   197                Bdisp_AreaReverseVRAM(sX+1, sY+1, sX+8, sY+8);
+    0000059A 57F7                   MOV.L       @(28,R15),R7
+    0000059C 56F4                   MOV.L       @(16,R15),R6
+    0000059E 55F6                   MOV.L       @(24,R15),R5
+    000005A0 54F5                   MOV.L       @(20,R15),R4
+    000005A2 7F30                   ADD         #48,R15
+    000005A4 D313                   MOV.L       L677+6,R3  ; _Bdisp_AreaReverseVRAM
+    000005A6 4F26                   LDS.L       @R15+,PR
+    000005A8 68F6                   MOV.L       @R15+,R8
+    000005AA 69F6                   MOV.L       @R15+,R9
+    000005AC 6AF6                   MOV.L       @R15+,R10
+    000005AE 6BF6                   MOV.L       @R15+,R11
+    000005B0 6CF6                   MOV.L       @R15+,R12
+    000005B2 6DF6                   MOV.L       @R15+,R13
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   18
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000005B4 432B                   JMP         @R3
+    000005B6 6EF6                   MOV.L       @R15+,R14
+    000005B8              L559:                             
+         Mines.c   198                break;
+         Mines.c   199        }
+         Mines.c   200    }
+    000005B8 7F30                   ADD         #48,R15
+    000005BA 4F26                   LDS.L       @R15+,PR
+    000005BC 68F6                   MOV.L       @R15+,R8
+    000005BE 69F6                   MOV.L       @R15+,R9
+    000005C0 6AF6                   MOV.L       @R15+,R10
+    000005C2 6BF6                   MOV.L       @R15+,R11
+    000005C4 6CF6                   MOV.L       @R15+,R12
+    000005C6 6DF6                   MOV.L       @R15+,R13
+    000005C8 000B                   RTS
+    000005CA 6EF6                   MOV.L       @R15+,R14
+         Mines.c   201    
+         Mines.c   202    int outOfBounds(int x, int y, int width, int height) {
+    000005CC              _outOfBounds:                    ; function: outOfBounds
+                                                           ; frame size=0
+         Mines.c   203        return x < 0 || x >= width || y < 0 || y >= height;
+    000005CC 4411                   CMP/PZ      R4
+    000005CE 8B07                   BF          L566
+    000005D0 3463                   CMP/GE      R6,R4
+    000005D2 8905                   BT          L566
+    000005D4 4511                   CMP/PZ      R5
+    000005D6 8B03                   BF          L566
+    000005D8 3573                   CMP/GE      R7,R5
+    000005DA 8901                   BT          L566
+    000005DC 000B                   RTS
+    000005DE E000                   MOV         #0,R0
+    000005E0              L566:                             
+    000005E0 E001                   MOV         #1,R0
+         Mines.c   204    }
+    000005E2              L568:                             
+    000005E2 000B                   RTS
+    000005E4 0009                   NOP
+         Mines.c   205    
+         Mines.c   206    int abs(int x) {
+    000005E6              _abs:                            ; function: abs
+                                                           ; frame size=0
+         Mines.c   207        return x < 0 ? -x : x;
+    000005E6 4411                   CMP/PZ      R4
+    000005E8 8906                   BT          L569
+    000005EA 000B                   RTS
+    000005EC 604B                   NEG         R4,R0
+    000005EE              L677:                             
+    000005EE 0000                   .DATA.W     0
+    000005F0 <00000000>             .DATA.L     _Bdisp_SetPoint_VRAM
+    000005F4 <00000000>             .DATA.L     _Bdisp_AreaReverseVRAM
+    000005F8              L569:                             
+    000005F8 6043                   MOV         R4,R0
+         Mines.c   208    }
+    000005FA              L571:                             
+    000005FA 000B                   RTS
+    000005FC 0009                   NOP
+         Mines.c   209    
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   19
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         Mines.c   210    void updateBoard(int board[30][30], int revealed[30][30], int camX, int camY,
+    000005FE              _updateBoard:                    ; function: updateBoard
+                                                           ; frame size=80
+    000005FE 2FE6                   MOV.L       R14,@-R15
+    00000600 2FD6                   MOV.L       R13,@-R15
+    00000602 2FC6                   MOV.L       R12,@-R15
+    00000604 2FB6                   MOV.L       R11,@-R15
+    00000606 2FA6                   MOV.L       R10,@-R15
+    00000608 2F96                   MOV.L       R9,@-R15
+    0000060A 6963                   MOV         R6,R9
+         Mines.c   211        int width, int height, int cursorX, int cursorY, int dead) {
+         Mines.c   212        int i; int j;
+         Mines.c   213        Bdisp_AllClr_VRAM();
+    0000060C D39F                   MOV.L       L678+2,R3  ; _Bdisp_AllClr_VRAM
+    0000060E 2F86                   MOV.L       R8,@-R15
+    00000610 4F22                   STS.L       PR,@-R15
+    00000612 4F12                   STS.L       MACL,@-R15
+    00000614 7FE4                   ADD         #-28,R15
+    00000616 1F45                   MOV.L       R4,@(20,R15)
+    00000618 1F54                   MOV.L       R5,@(16,R15)
+    0000061A 430B                   JSR         @R3
+    0000061C 6B73                   MOV         R7,R11
+         Mines.c   214        for(i = -4; i<5; ++i) {
+    0000061E EA01                   MOV         #1,R10
+    00000620 ED00                   MOV         #0,R13
+    00000622 E2FC                   MOV         #-4,R2
+    00000624 1F22                   MOV.L       R2,@(8,R15)
+    00000626              L572:                             
+         Mines.c   215            for(j = -3; j<4; ++j) {
+    00000626 E3FD                   MOV         #-3,R3
+    00000628 2F32                   MOV.L       R3,@R15
+    0000062A 64B3                   MOV         R11,R4
+    0000062C 74FD                   ADD         #-3,R4
+    0000062E 6843                   MOV         R4,R8
+    00000630 1F41                   MOV.L       R4,@(4,R15)
+    00000632 1F43                   MOV.L       R4,@(12,R15)
+    00000634 5EF2                   MOV.L       @(8,R15),R14
+    00000636 3E9C                   ADD         R9,R14
+    00000638              L573:                             
+    00000638 6CF2                   MOV.L       @R15,R12
+    0000063A E044                   MOV         #68,R0
+    0000063C 07FE                   MOV.L       @(R0,R15),R7
+    0000063E 3CBC                   ADD         R11,R12
+    00000640 E040                   MOV         #64,R0
+    00000642 65C3                   MOV         R12,R5
+    00000644 06FE                   MOV.L       @(R0,R15),R6
+    00000646 BFC1                   BSR         _outOfBounds
+    00000648 64E3                   MOV         R14,R4
+    0000064A 2008                   TST         R0,R0
+    0000064C 894F                   BT          L574
+         Mines.c   216                if(outOfBounds(camX+i, camY+j, width, height)) {
+         Mines.c   217                    if(camX+i == -1 && 0 <= camY+j && camY+j < height)
+    0000064E 60E3                   MOV         R14,R0
+    00000650 88FF                   CMP/EQ      #-1,R0
+    00000652 8B0F                   BF          L575
+    00000654 4C11                   CMP/PZ      R12
+    00000656 8B0D                   BF          L575
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   20
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000658 E044                   MOV         #68,R0
+    0000065A 03FE                   MOV.L       @(R0,R15),R3
+    0000065C 3C33                   CMP/GE      R3,R12
+    0000065E 8909                   BT          L575
+         Mines.c   218                        drawCellOutlines(camX+i, camY+j, camX, camY, 0, 0, 0, 1);
+    00000660 2FA6                   MOV.L       R10,@-R15
+    00000662 67B3                   MOV         R11,R7
+    00000664 2FD6                   MOV.L       R13,@-R15
+    00000666 6693                   MOV         R9,R6
+    00000668 2FD6                   MOV.L       R13,@-R15
+    0000066A 65C3                   MOV         R12,R5
+    0000066C 2FD6                   MOV.L       R13,@-R15
+    0000066E BD2F                   BSR         _drawCellOutlines
+    00000670 64E3                   MOV         R14,R4
+    00000672 7F10                   ADD         #16,R15
+    00000674              L575:                             
+         Mines.c   219                    if(camX+i == width && 0 <= camY+j && camY+j < height)
+    00000674 E040                   MOV         #64,R0
+    00000676 02FE                   MOV.L       @(R0,R15),R2
+    00000678 3E20                   CMP/EQ      R2,R14
+    0000067A 8B0F                   BF          L576
+    0000067C 4C11                   CMP/PZ      R12
+    0000067E 8B0D                   BF          L576
+    00000680 E044                   MOV         #68,R0
+    00000682 03FE                   MOV.L       @(R0,R15),R3
+    00000684 3C33                   CMP/GE      R3,R12
+    00000686 8909                   BT          L576
+         Mines.c   220                        drawCellOutlines(camX+i, camY+j, camX, camY, 0, 0, 1, 0);
+    00000688 2FD6                   MOV.L       R13,@-R15
+    0000068A 67B3                   MOV         R11,R7
+    0000068C 2FA6                   MOV.L       R10,@-R15
+    0000068E 6693                   MOV         R9,R6
+    00000690 2FD6                   MOV.L       R13,@-R15
+    00000692 65C3                   MOV         R12,R5
+    00000694 2FD6                   MOV.L       R13,@-R15
+    00000696 BD1B                   BSR         _drawCellOutlines
+    00000698 64E3                   MOV         R14,R4
+    0000069A 7F10                   ADD         #16,R15
+    0000069C              L576:                             
+         Mines.c   221                    if(camY+j == -1 && 0 <= camX+i && camX+i < width)
+    0000069C 60C3                   MOV         R12,R0
+    0000069E 88FF                   CMP/EQ      #-1,R0
+    000006A0 8B0F                   BF          L577
+    000006A2 4E11                   CMP/PZ      R14
+    000006A4 8B0D                   BF          L577
+    000006A6 E040                   MOV         #64,R0
+    000006A8 02FE                   MOV.L       @(R0,R15),R2
+    000006AA 3E23                   CMP/GE      R2,R14
+    000006AC 8909                   BT          L577
+         Mines.c   222                        drawCellOutlines(camX+i, camY+j, camX, camY, 0, 1, 0, 0);
+    000006AE 67B3                   MOV         R11,R7
+    000006B0 2FD6                   MOV.L       R13,@-R15
+    000006B2 6693                   MOV         R9,R6
+    000006B4 2FD6                   MOV.L       R13,@-R15
+    000006B6 65C3                   MOV         R12,R5
+    000006B8 2FA6                   MOV.L       R10,@-R15
+    000006BA 2FD6                   MOV.L       R13,@-R15
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   21
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000006BC BD08                   BSR         _drawCellOutlines
+    000006BE 64E3                   MOV         R14,R4
+    000006C0 7F10                   ADD         #16,R15
+    000006C2              L577:                             
+         Mines.c   223                    if(camY+j == height && 0 <= camX+i && camX+i < width)
+    000006C2 E044                   MOV         #68,R0
+    000006C4 52F3                   MOV.L       @(12,R15),R2
+    000006C6 03FE                   MOV.L       @(R0,R15),R3
+    000006C8 3230                   CMP/EQ      R3,R2
+    000006CA 8B28                   BF          L579
+    000006CC 4E11                   CMP/PZ      R14
+    000006CE 8B26                   BF          L579
+    000006D0 E040                   MOV         #64,R0
+    000006D2 01FE                   MOV.L       @(R0,R15),R1
+    000006D4 3E13                   CMP/GE      R1,R14
+    000006D6 8922                   BT          L579
+         Mines.c   224                        drawCellOutlines(camX+i, camY+j, camX, camY, 1, 0, 0, 0);
+    000006D8 2FD6                   MOV.L       R13,@-R15
+    000006DA 67B3                   MOV         R11,R7
+    000006DC 2FD6                   MOV.L       R13,@-R15
+    000006DE 6693                   MOV         R9,R6
+    000006E0 2FD6                   MOV.L       R13,@-R15
+    000006E2 2FA6                   MOV.L       R10,@-R15
+    000006E4 55F5                   MOV.L       @(20,R15),R5
+    000006E6 BCF3                   BSR         _drawCellOutlines
+    000006E8 64E3                   MOV         R14,R4
+    000006EA A018                   BRA         L579
+    000006EC 7F10                   ADD         #16,R15
+    000006EE              L574:                             
+         Mines.c   225                }
+         Mines.c   226                else {
+         Mines.c   227                    drawCell(camX+i, camY+j, camX, camY,
+         Mines.c   228                     board[camX+i][camY+j], revealed[camX+i][camY+j], dead);
+    000006EE E050                   MOV         #80,R0
+    000006F0 03FE                   MOV.L       @(R0,R15),R3
+    000006F2 6C83                   MOV         R8,R12
+    000006F4 2F36                   MOV.L       R3,@-R15
+    000006F6 E078                   MOV         #120,R0
+    000006F8 0E07                   MUL.L       R0,R14
+    000006FA 4C08                   SHLL2       R12
+    000006FC 001A                   STS         MACL,R0
+    000006FE 67B3                   MOV         R11,R7
+    00000700 1F07                   MOV.L       R0,@(28,R15)
+    00000702 6693                   MOV         R9,R6
+    00000704 53F5                   MOV.L       @(20,R15),R3
+    00000706 6583                   MOV         R8,R5
+    00000708 303C                   ADD         R3,R0
+    0000070A 01CE                   MOV.L       @(R0,R12),R1
+    0000070C 2F16                   MOV.L       R1,@-R15
+    0000070E 52F7                   MOV.L       @(28,R15),R2
+    00000710 50F8                   MOV.L       @(32,R15),R0
+    00000712 302C                   ADD         R2,R0
+    00000714 01CE                   MOV.L       @(R0,R12),R1
+    00000716 2F16                   MOV.L       R1,@-R15
+    00000718 BD1A                   BSR         _drawCell
+    0000071A 64E3                   MOV         R14,R4
+    0000071C 7F0C                   ADD         #12,R15
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   22
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000071E              L579:                             
+    0000071E 63F2                   MOV.L       @R15,R3
+    00000720 7301                   ADD         #1,R3
+    00000722 2F32                   MOV.L       R3,@R15
+    00000724 52F1                   MOV.L       @(4,R15),R2
+    00000726 E304                   MOV         #4,R3
+    00000728 7201                   ADD         #1,R2
+    0000072A 1F21                   MOV.L       R2,@(4,R15)
+    0000072C 51F3                   MOV.L       @(12,R15),R1
+    0000072E 7101                   ADD         #1,R1
+    00000730 1F13                   MOV.L       R1,@(12,R15)
+    00000732 60F2                   MOV.L       @R15,R0
+    00000734 3033                   CMP/GE      R3,R0
+    00000736 8D02                   BT/S        L679
+    00000738 7801                   ADD         #1,R8
+    0000073A AF7D                   BRA         L573
+    0000073C 0009                   NOP
+    0000073E              L679:                             
+    0000073E E305                   MOV         #5,R3
+    00000740 51F2                   MOV.L       @(8,R15),R1
+    00000742 7101                   ADD         #1,R1
+    00000744 3133                   CMP/GE      R3,R1
+    00000746 8D02                   BT/S        L680
+    00000748 1F12                   MOV.L       R1,@(8,R15)
+    0000074A AF6C                   BRA         L572
+    0000074C 0009                   NOP
+    0000074E              L680:                             
+         Mines.c   229                }
+         Mines.c   230            }
+         Mines.c   231        }
+         Mines.c   232        drawUI(board, revealed);
+    0000074E 55F4                   MOV.L       @(16,R15),R5
+    00000750 BC6B                   BSR         _drawUI
+    00000752 54F5                   MOV.L       @(20,R15),R4
+         Mines.c   233        if(!dead) {
+    00000754 E050                   MOV         #80,R0
+    00000756 02FE                   MOV.L       @(R0,R15),R2
+    00000758 2228                   TST         R2,R2
+    0000075A 8B21                   BF          L580
+         Mines.c   234            Bdisp_AreaReverseVRAM(79+10*(cursorX-camX), 27+10*(cursorY-camY),
+         Mines.c   235            79+10*(cursorX-camX)+9, 27+10*(cursorY-camY)+9);
+    0000075C E04C                   MOV         #76,R0
+    0000075E 07FE                   MOV.L       @(R0,R15),R7
+    00000760 37B8                   SUB         R11,R7
+    00000762 6373                   MOV         R7,R3
+    00000764 4708                   SHLL2       R7
+    00000766 373C                   ADD         R3,R7
+    00000768 4700                   SHLL        R7
+    0000076A E048                   MOV         #72,R0
+    0000076C 1F71                   MOV.L       R7,@(4,R15)
+    0000076E 7724                   ADD         #36,R7
+    00000770 06FE                   MOV.L       @(R0,R15),R6
+    00000772 3698                   SUB         R9,R6
+    00000774 6363                   MOV         R6,R3
+    00000776 4608                   SHLL2       R6
+    00000778 363C                   ADD         R3,R6
+    0000077A 4600                   SHLL        R6
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   23
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000077C D344                   MOV.L       L678+6,R3  ; _Bdisp_AreaReverseVRAM
+    0000077E 2F62                   MOV.L       R6,@R15
+    00000780 55F1                   MOV.L       @(4,R15),R5
+    00000782 7658                   ADD         #88,R6
+    00000784 64F2                   MOV.L       @R15,R4
+    00000786 751B                   ADD         #27,R5
+    00000788 744F                   ADD         #79,R4
+    0000078A 7F1C                   ADD         #28,R15
+    0000078C 4F16                   LDS.L       @R15+,MACL
+    0000078E 4F26                   LDS.L       @R15+,PR
+    00000790 68F6                   MOV.L       @R15+,R8
+    00000792 69F6                   MOV.L       @R15+,R9
+    00000794 6AF6                   MOV.L       @R15+,R10
+    00000796 6BF6                   MOV.L       @R15+,R11
+    00000798 6CF6                   MOV.L       @R15+,R12
+    0000079A 6DF6                   MOV.L       @R15+,R13
+    0000079C 432B                   JMP         @R3
+    0000079E 6EF6                   MOV.L       @R15+,R14
+    000007A0              L580:                             
+         Mines.c   236        }
+         Mines.c   237    }
+    000007A0 7F1C                   ADD         #28,R15
+    000007A2 4F16                   LDS.L       @R15+,MACL
+    000007A4 4F26                   LDS.L       @R15+,PR
+    000007A6 68F6                   MOV.L       @R15+,R8
+    000007A8 69F6                   MOV.L       @R15+,R9
+    000007AA 6AF6                   MOV.L       @R15+,R10
+    000007AC 6BF6                   MOV.L       @R15+,R11
+    000007AE 6CF6                   MOV.L       @R15+,R12
+    000007B0 6DF6                   MOV.L       @R15+,R13
+    000007B2 000B                   RTS
+    000007B4 6EF6                   MOV.L       @R15+,R14
+         Mines.c   238    
+         Mines.c   239    // Return value: 1 if dead, 0 if not
+         Mines.c   240    int click(int cx, int cy, int board[30][30],
+    000007B6              _click:                          ; function: click
+                                                           ; frame size=92
+                                                           ; used runtime library name:
+                                                           ; __modls
+    000007B6 E04C                   MOV         #76,R0
+    000007B8 2FE6                   MOV.L       R14,@-R15
+    000007BA 2FD6                   MOV.L       R13,@-R15
+    000007BC 2FC6                   MOV.L       R12,@-R15
+    000007BE 2FB6                   MOV.L       R11,@-R15
+    000007C0 2FA6                   MOV.L       R10,@-R15
+    000007C2 6B63                   MOV         R6,R11
+    000007C4 2F96                   MOV.L       R9,@-R15
+    000007C6 2F86                   MOV.L       R8,@-R15
+    000007C8 4F22                   STS.L       PR,@-R15
+    000007CA 4F12                   STS.L       MACL,@-R15
+    000007CC 7FD8                   ADD         #-40,R15
+    000007CE 1F47                   MOV.L       R4,@(28,R15)
+    000007D0 1F58                   MOV.L       R5,@(32,R15)
+    000007D2 1F76                   MOV.L       R7,@(24,R15)
+    000007D4 09FE                   MOV.L       @(R0,R15),R9
+    000007D6 E050                   MOV         #80,R0
+         Mines.c   241     int revealed[30][30], int width, int height, int mines, int started) {
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   24
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         Mines.c   242        int i; int j; int k; int l;
+         Mines.c   243        if(outOfBounds(cx, cy, width, height)) {
+    000007D8 55F8                   MOV.L       @(32,R15),R5
+    000007DA 6693                   MOV         R9,R6
+    000007DC 0AFE                   MOV.L       @(R0,R15),R10
+    000007DE 67A3                   MOV         R10,R7
+    000007E0 BEF4                   BSR         _outOfBounds
+    000007E2 54F7                   MOV.L       @(28,R15),R4
+    000007E4 2008                   TST         R0,R0
+    000007E6 8901                   BT          L681
+    000007E8 A09A                   BRA         L505
+    000007EA 0009                   NOP
+    000007EC              L681:                             
+         Mines.c   244            return 0;
+         Mines.c   245        }
+         Mines.c   246        if(!started) {
+    000007EC ED00                   MOV         #0,R13
+    000007EE E058                   MOV         #88,R0
+    000007F0 02FE                   MOV.L       @(R0,R15),R2
+    000007F2 2228                   TST         R2,R2
+    000007F4 8D02                   BT/S        L682
+    000007F6 EE78                   MOV         #120,R14
+    000007F8 A085                   BRA         L583
+    000007FA 0009                   NOP
+    000007FC              L682:                             
+         Mines.c   247            // Place mines, mine is -1
+         Mines.c   248            // Do not place mines within 3x3 square of first click
+         Mines.c   249            for(i = 0; i < mines; i++) {
+    000007FC 2FD2                   MOV.L       R13,@R15
+    000007FE E054                   MOV         #84,R0
+    00000800 03FE                   MOV.L       @(R0,R15),R3
+    00000802 4315                   CMP/PL      R3
+    00000804 8B33                   BF          L584
+    00000806              L585:                             
+         Mines.c   250                int x = rand() % width;
+    00000806 D123                   MOV.L       L678+10,R1 ; _rand
+    00000808 410B                   JSR         @R1
+    0000080A 0009                   NOP
+    0000080C D222                   MOV.L       L678+14,R2 ; __modls
+    0000080E 6103                   MOV         R0,R1
+    00000810 420B                   JSR         @R2
+    00000812 6093                   MOV         R9,R0
+         Mines.c   251                int y = rand() % height;
+    00000814 D31F                   MOV.L       L678+10,R3 ; _rand
+    00000816 430B                   JSR         @R3
+    00000818 6803                   MOV         R0,R8
+    0000081A 6103                   MOV         R0,R1
+    0000081C D21E                   MOV.L       L678+14,R2 ; __modls
+    0000081E 420B                   JSR         @R2
+    00000820 60A3                   MOV         R10,R0
+    00000822 6C03                   MOV         R0,R12
+         Mines.c   252                if(board[x][y] == -1 || abs(cx-x) <= 1 || abs(cy-y) <= 1) {
+    00000824 08E7                   MUL.L       R14,R8
+    00000826 63C3                   MOV         R12,R3
+    00000828 001A                   STS         MACL,R0
+    0000082A 30BC                   ADD         R11,R0
+    0000082C 4308                   SHLL2       R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   25
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000082E 003E                   MOV.L       @(R0,R3),R0
+    00000830 88FF                   CMP/EQ      #-1,R0
+    00000832 890B                   BT          L587
+    00000834 54F7                   MOV.L       @(28,R15),R4
+    00000836 BED6                   BSR         _abs
+    00000838 3488                   SUB         R8,R4
+    0000083A E201                   MOV         #1,R2
+    0000083C 3027                   CMP/GT      R2,R0
+    0000083E 8B05                   BF          L587
+    00000840 54F8                   MOV.L       @(32,R15),R4
+    00000842 BED0                   BSR         _abs
+    00000844 34C8                   SUB         R12,R4
+    00000846 E201                   MOV         #1,R2
+    00000848 3027                   CMP/GT      R2,R0
+    0000084A 8903                   BT          L586
+    0000084C              L587:                             
+         Mines.c   253                    i--;  // Try again
+    0000084C 61F2                   MOV.L       @R15,R1
+    0000084E 71FF                   ADD         #-1,R1
+    00000850 A006                   BRA         L588
+    00000852 2F12                   MOV.L       R1,@R15
+    00000854              L586:                             
+         Mines.c   254                }
+         Mines.c   255                else {
+         Mines.c   256                    board[x][y] = -1;
+    00000854 08E7                   MUL.L       R14,R8
+    00000856 4C08                   SHLL2       R12
+    00000858 001A                   STS         MACL,R0
+    0000085A 30BC                   ADD         R11,R0
+    0000085C E3FF                   MOV         #-1,R3
+    0000085E 0C36                   MOV.L       R3,@(R0,R12)
+    00000860              L588:                             
+    00000860 62F2                   MOV.L       @R15,R2
+    00000862 E054                   MOV         #84,R0
+    00000864 7201                   ADD         #1,R2
+    00000866 2F22                   MOV.L       R2,@R15
+    00000868 03FE                   MOV.L       @(R0,R15),R3
+    0000086A 3233                   CMP/GE      R3,R2
+    0000086C 8BCB                   BF          L585
+    0000086E              L584:                             
+         Mines.c   257                }
+         Mines.c   258            }
+         Mines.c   259            // Write numbers
+         Mines.c   260            for(i = 0; i<width; i++) {
+    0000086E A048                   BRA         L589
+    00000870 6CD3                   MOV         R13,R12
+    00000872              L590:                             
+         Mines.c   261                for(j = 0; j<height; j++) {
+    00000872 66D3                   MOV         R13,R6
+    00000874 0CE7                   MUL.L       R14,R12
+    00000876 61C3                   MOV         R12,R1
+    00000878 62C3                   MOV         R12,R2
+    0000087A 7201                   ADD         #1,R2
+    0000087C 1F24                   MOV.L       R2,@(16,R15)
+    0000087E 031A                   STS         MACL,R3
+    00000880 33BC                   ADD         R11,R3
+    00000882 71FF                   ADD         #-1,R1
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   26
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000884 2F32                   MOV.L       R3,@R15
+    00000886 A039                   BRA         L591
+    00000888 1F15                   MOV.L       R1,@(20,R15)
+    0000088A              L678:                             
+    0000088A 0000                   .DATA.W     0
+    0000088C <00000000>             .DATA.L     _Bdisp_AllClr_VRAM
+    00000890 <00000000>             .DATA.L     _Bdisp_AreaReverseVRAM
+    00000894 <00000000>             .DATA.L     _rand
+    00000898 <00000000>             .DATA.L     __modls
+    0000089C              L592:                             
+    0000089C 6363                   MOV         R6,R3
+    0000089E 4308                   SHLL2       R3
+    000008A0 1F31                   MOV.L       R3,@(4,R15)
+    000008A2 60F2                   MOV.L       @R15,R0
+    000008A4 003E                   MOV.L       @(R0,R3),R0
+    000008A6 88FF                   CMP/EQ      #-1,R0
+    000008A8 8927                   BT          L593
+         Mines.c   262                    if(board[i][j] != -1) {
+         Mines.c   263                        int count = 0;
+    000008AA 68D3                   MOV         R13,R8
+         Mines.c   264                        for(k = i-1; k<=i+1; k++) {
+    000008AC 55F5                   MOV.L       @(20,R15),R5
+    000008AE 6763                   MOV         R6,R7
+    000008B0 7701                   ADD         #1,R7
+    000008B2 6263                   MOV         R6,R2
+    000008B4 72FF                   ADD         #-1,R2
+    000008B6 A01A                   BRA         L594
+    000008B8 1F23                   MOV.L       R2,@(12,R15)
+    000008BA              L595:                             
+         Mines.c   265                            for(l = j-1; l<=j+1; l++) {
+    000008BA 54F3                   MOV.L       @(12,R15),R4
+    000008BC 05E7                   MUL.L       R14,R5
+    000008BE 3477                   CMP/GT      R7,R4
+    000008C0 031A                   STS         MACL,R3
+    000008C2 33BC                   ADD         R11,R3
+    000008C4 8D12                   BT/S        L596
+    000008C6 1F32                   MOV.L       R3,@(8,R15)
+    000008C8              L597:                             
+         Mines.c   266                                if(k >= 0 && k < width && l >= 0 && l < height) {
+    000008C8 4511                   CMP/PZ      R5
+    000008CA 8B0C                   BF          L598
+    000008CC 3593                   CMP/GE      R9,R5
+    000008CE 890A                   BT          L598
+    000008D0 4411                   CMP/PZ      R4
+    000008D2 8B08                   BF          L598
+    000008D4 34A3                   CMP/GE      R10,R4
+    000008D6 8906                   BT          L598
+         Mines.c   267                                    if(board[k][l] == -1) {
+    000008D8 53F2                   MOV.L       @(8,R15),R3
+    000008DA 6043                   MOV         R4,R0
+    000008DC 4008                   SHLL2       R0
+    000008DE 003E                   MOV.L       @(R0,R3),R0
+    000008E0 88FF                   CMP/EQ      #-1,R0
+    000008E2 8B00                   BF          L598
+         Mines.c   268                                        count++;
+    000008E4 7801                   ADD         #1,R8
+    000008E6              L598:                             
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   27
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000008E6 7401                   ADD         #1,R4
+    000008E8 3477                   CMP/GT      R7,R4
+    000008EA 8BED                   BF          L597
+    000008EC              L596:                             
+    000008EC 7501                   ADD         #1,R5
+    000008EE              L594:                             
+    000008EE 52F4                   MOV.L       @(16,R15),R2
+    000008F0 3527                   CMP/GT      R2,R5
+    000008F2 8BE2                   BF          L595
+         Mines.c   269                                    }
+         Mines.c   270                                }
+         Mines.c   271                            }
+         Mines.c   272                        }
+         Mines.c   273                        board[i][j] = count;
+    000008F4 61F2                   MOV.L       @R15,R1
+    000008F6 50F1                   MOV.L       @(4,R15),R0
+    000008F8 0186                   MOV.L       R8,@(R0,R1)
+    000008FA              L593:                             
+    000008FA 7601                   ADD         #1,R6
+    000008FC              L591:                             
+    000008FC 36A3                   CMP/GE      R10,R6
+    000008FE 8BCD                   BF          L592
+    00000900 7C01                   ADD         #1,R12
+    00000902              L589:                             
+    00000902 3C93                   CMP/GE      R9,R12
+    00000904 8BB5                   BF          L590
+    00000906              L583:                             
+    00000906 53F7                   MOV.L       @(28,R15),R3
+    00000908 03E7                   MUL.L       R14,R3
+    0000090A 031A                   STS         MACL,R3
+    0000090C 1F35                   MOV.L       R3,@(20,R15)
+    0000090E 52F8                   MOV.L       @(32,R15),R2
+    00000910 4208                   SHLL2       R2
+    00000912 1F29                   MOV.L       R2,@(36,R15)
+    00000914 51F6                   MOV.L       @(24,R15),R1
+    00000916 331C                   ADD         R1,R3
+    00000918 332C                   ADD         R2,R3
+    0000091A 6132                   MOV.L       @R3,R1
+    0000091C 2118                   TST         R1,R1
+    0000091E 8901                   BT          L600
+    00000920              L505:
+         Mines.c   274                    }
+         Mines.c   275                }
+         Mines.c   276            }
+         Mines.c   277        }
+         Mines.c   278        if(revealed[cx][cy] != 0) {  // Opened or flagged
+         Mines.c   279            return 0;
+    00000920 A04A                   BRA         L582
+    00000922 E000                   MOV         #0,R0
+    00000924              L600:                             
+         Mines.c   280        }
+         Mines.c   281        revealed[cx][cy] = 1;
+    00000924 53F6                   MOV.L       @(24,R15),R3
+    00000926 EC01                   MOV         #1,R12
+    00000928 50F5                   MOV.L       @(20,R15),R0
+    0000092A 303C                   ADD         R3,R0
+    0000092C 52F9                   MOV.L       @(36,R15),R2
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   28
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000092E 02C6                   MOV.L       R12,@(R0,R2)
+         Mines.c   282        if(board[cx][cy] == 0) {
+    00000930 53F5                   MOV.L       @(20,R15),R3
+    00000932 33BC                   ADD         R11,R3
+    00000934 50F9                   MOV.L       @(36,R15),R0
+    00000936 033E                   MOV.L       @(R0,R3),R3
+    00000938 2338                   TST         R3,R3
+    0000093A 8B37                   BF          L601
+         Mines.c   283            for(i = -1; i<=1; ++i) {
+    0000093C A032                   BRA         L663
+    0000093E E1FF                   MOV         #-1,R1
+    00000940              L603:                             
+         Mines.c   284                for(j = -1; j<=1; ++j) {
+    00000940 E2FF                   MOV         #-1,R2
+    00000942 1F21                   MOV.L       R2,@(4,R15)
+    00000944 54F8                   MOV.L       @(32,R15),R4
+    00000946 74FF                   ADD         #-1,R4
+    00000948 2F42                   MOV.L       R4,@R15
+    0000094A 4408                   SHLL2       R4
+    0000094C 53F3                   MOV.L       @(12,R15),R3
+    0000094E 55F7                   MOV.L       @(28,R15),R5
+    00000950 353C                   ADD         R3,R5
+    00000952 1F54                   MOV.L       R5,@(16,R15)
+    00000954 05E7                   MUL.L       R14,R5
+    00000956 051A                   STS         MACL,R5
+    00000958 52F6                   MOV.L       @(24,R15),R2
+    0000095A 352C                   ADD         R2,R5
+    0000095C 354C                   ADD         R4,R5
+    0000095E 6853                   MOV         R5,R8
+    00000960 A01B                   BRA         L604
+    00000962 1F52                   MOV.L       R5,@(8,R15)
+    00000964              L605:                             
+         Mines.c   285                    if(revealed[cx+i][cy+j] == 2) {
+    00000964 50F2                   MOV.L       @(8,R15),R0
+    00000966 6002                   MOV.L       @R0,R0
+    00000968 8802                   CMP/EQ      #2,R0
+    0000096A 8B00                   BF          L606
+         Mines.c   286                        revealed[cx+i][cy+j] = 0;  // Unflag
+    0000096C 28D2                   MOV.L       R13,@R8
+    0000096E              L606:                             
+         Mines.c   287                    }
+         Mines.c   288                    click(cx+i, cy+j, board, revealed, width, height, mines, 1);
+    0000096E E058                   MOV         #88,R0
+    00000970 2FC6                   MOV.L       R12,@-R15
+    00000972 66B3                   MOV         R11,R6
+    00000974 02FE                   MOV.L       @(R0,R15),R2
+    00000976 2F26                   MOV.L       R2,@-R15
+    00000978 2FA6                   MOV.L       R10,@-R15
+    0000097A 2F96                   MOV.L       R9,@-R15
+    0000097C 57FA                   MOV.L       @(40,R15),R7
+    0000097E 55F4                   MOV.L       @(16,R15),R5
+    00000980 BF19                   BSR         _click
+    00000982 54F8                   MOV.L       @(32,R15),R4
+    00000984 7F10                   ADD         #16,R15
+    00000986 7804                   ADD         #4,R8
+    00000988 52F1                   MOV.L       @(4,R15),R2
+    0000098A 7201                   ADD         #1,R2
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   29
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000098C 1F21                   MOV.L       R2,@(4,R15)
+    0000098E 63F2                   MOV.L       @R15,R3
+    00000990 7301                   ADD         #1,R3
+    00000992 2F32                   MOV.L       R3,@R15
+    00000994 51F2                   MOV.L       @(8,R15),R1
+    00000996 7104                   ADD         #4,R1
+    00000998 1F12                   MOV.L       R1,@(8,R15)
+    0000099A              L604:                             
+    0000099A 53F1                   MOV.L       @(4,R15),R3
+    0000099C 33C7                   CMP/GT      R12,R3
+    0000099E 8BE1                   BF          L605
+    000009A0 51F3                   MOV.L       @(12,R15),R1
+    000009A2 7101                   ADD         #1,R1
+    000009A4              L663:                             
+    000009A4 6313                   MOV         R1,R3
+    000009A6 33C7                   CMP/GT      R12,R3
+    000009A8 8FCA                   BF/S        L603
+    000009AA 1F13                   MOV.L       R1,@(12,R15)
+    000009AC              L601:                             
+         Mines.c   289                }
+         Mines.c   290            }
+         Mines.c   291        }
+         Mines.c   292        return board[cx][cy] == -1;
+    000009AC 50F5                   MOV.L       @(20,R15),R0
+    000009AE 30BC                   ADD         R11,R0
+    000009B0 53F9                   MOV.L       @(36,R15),R3
+    000009B2 003E                   MOV.L       @(R0,R3),R0
+    000009B4 88FF                   CMP/EQ      #-1,R0
+    000009B6 0029                   MOVT        R0
+         Mines.c   293    }
+    000009B8              L582:                             
+    000009B8 7F28                   ADD         #40,R15
+    000009BA 4F16                   LDS.L       @R15+,MACL
+    000009BC 4F26                   LDS.L       @R15+,PR
+    000009BE 68F6                   MOV.L       @R15+,R8
+    000009C0 69F6                   MOV.L       @R15+,R9
+    000009C2 6AF6                   MOV.L       @R15+,R10
+    000009C4 6BF6                   MOV.L       @R15+,R11
+    000009C6 6CF6                   MOV.L       @R15+,R12
+    000009C8 6DF6                   MOV.L       @R15+,R13
+    000009CA 000B                   RTS
+    000009CC 6EF6                   MOV.L       @R15+,R14
+         Mines.c   294    
+         Mines.c   295    int chord(int cx, int cy, int board[30][30],
+    000009CE              _chord:                          ; function: chord
+                                                           ; frame size=72
+    000009CE E378                   MOV         #120,R3
+    000009D0 2FE6                   MOV.L       R14,@-R15
+    000009D2 EE01                   MOV         #1,R14
+    000009D4 2FD6                   MOV.L       R13,@-R15
+    000009D6 2FC6                   MOV.L       R12,@-R15
+    000009D8 2FB6                   MOV.L       R11,@-R15
+         Mines.c   296     int revealed[30][30], int width, int height, int mines, int started) {
+         Mines.c   297        int i; int j; int k; int l;
+         Mines.c   298        int flags = 0;
+         Mines.c   299        int died = 0;
+         Mines.c   300    
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   30
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         Mines.c   301        for(i = -1; i<=1; ++i) {
+    000009DA EBFF                   MOV         #-1,R11
+    000009DC 2FA6                   MOV.L       R10,@-R15
+    000009DE 6CB3                   MOV         R11,R12
+    000009E0 2F96                   MOV.L       R9,@-R15
+    000009E2 6953                   MOV         R5,R9
+    000009E4 2F86                   MOV.L       R8,@-R15
+    000009E6 79FF                   ADD         #-1,R9
+    000009E8 4F22                   STS.L       PR,@-R15
+    000009EA 4F12                   STS.L       MACL,@-R15
+    000009EC 7FEC                   ADD         #-20,R15
+    000009EE 1F43                   MOV.L       R4,@(12,R15)
+    000009F0 1F62                   MOV.L       R6,@(8,R15)
+    000009F2 E400                   MOV         #0,R4
+    000009F4 2F72                   MOV.L       R7,@R15
+    000009F6 6D43                   MOV         R4,R13
+    000009F8 1F44                   MOV.L       R4,@(16,R15)
+    000009FA 57F3                   MOV.L       @(12,R15),R7
+    000009FC 62F2                   MOV.L       @R15,R2
+    000009FE 77FF                   ADD         #-1,R7
+    00000A00 0737                   MUL.L       R3,R7
+    00000A02 071A                   STS         MACL,R7
+    00000A04 372C                   ADD         R2,R7
+    00000A06              L607:                             
+         Mines.c   302            for(j = -1; j<=1; ++j) {
+    00000A06 66B3                   MOV         R11,R6
+    00000A08 6493                   MOV         R9,R4
+    00000A0A 4408                   SHLL2       R4
+    00000A0C 347C                   ADD         R7,R4
+    00000A0E              L608:                             
+         Mines.c   303                if(revealed[cx+i][cy+j] == 2) {
+    00000A0E 6042                   MOV.L       @R4,R0
+    00000A10 8802                   CMP/EQ      #2,R0
+    00000A12 8F01                   BF/S        L609
+    00000A14 7601                   ADD         #1,R6
+         Mines.c   304                    flags++;
+    00000A16 7D01                   ADD         #1,R13
+    00000A18              L609:                             
+    00000A18 36E7                   CMP/GT      R14,R6
+    00000A1A 8FF8                   BF/S        L608
+    00000A1C 7404                   ADD         #4,R4
+    00000A1E 7C01                   ADD         #1,R12
+    00000A20 3CE7                   CMP/GT      R14,R12
+    00000A22 8FF0                   BF/S        L607
+    00000A24 7778                   ADD         #120,R7
+         Mines.c   305                }
+         Mines.c   306            }
+         Mines.c   307        }
+         Mines.c   308        if(flags != board[cx][cy]) {
+    00000A26 E378                   MOV         #120,R3
+    00000A28 52F3                   MOV.L       @(12,R15),R2
+    00000A2A 4508                   SHLL2       R5
+    00000A2C 51F2                   MOV.L       @(8,R15),R1
+    00000A2E 0237                   MUL.L       R3,R2
+    00000A30 001A                   STS         MACL,R0
+    00000A32 301C                   ADD         R1,R0
+    00000A34 025E                   MOV.L       @(R0,R5),R2
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   31
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000A36 3D20                   CMP/EQ      R2,R13
+    00000A38 8901                   BT          L610
+         Mines.c   309            return 0;
+    00000A3A A02D                   BRA         L611
+    00000A3C E000                   MOV         #0,R0
+    00000A3E              L610:                             
+         Mines.c   310        }
+         Mines.c   311        for(i = -1; i<=1; ++i) {
+    00000A3E 68B3                   MOV         R11,R8
+    00000A40              L612:                             
+    00000A40 5CF3                   MOV.L       @(12,R15),R12
+    00000A42 E378                   MOV         #120,R3
+         Mines.c   312            for(j = -1; j<=1; ++j) {
+    00000A44 6AB3                   MOV         R11,R10
+    00000A46 6D93                   MOV         R9,R13
+    00000A48 3C8C                   ADD         R8,R12
+    00000A4A 61D3                   MOV         R13,R1
+    00000A4C 1FC1                   MOV.L       R12,@(4,R15)
+    00000A4E 4108                   SHLL2       R1
+    00000A50 0C37                   MUL.L       R3,R12
+    00000A52 0C1A                   STS         MACL,R12
+    00000A54 62F2                   MOV.L       @R15,R2
+    00000A56 3C2C                   ADD         R2,R12
+    00000A58 3C1C                   ADD         R1,R12
+    00000A5A              L613:                             
+         Mines.c   313                if(revealed[cx+i][cy+j] == 0) {
+    00000A5A 63C2                   MOV.L       @R12,R3
+    00000A5C 2338                   TST         R3,R3
+    00000A5E 8B12                   BF          L614
+         Mines.c   314                    if(click(cx+i,cy+j,board,revealed,width,height,mines,1)) {
+    00000A60 2FE6                   MOV.L       R14,@-R15
+    00000A62 E044                   MOV         #68,R0
+    00000A64 03FE                   MOV.L       @(R0,R15),R3
+    00000A66 65D3                   MOV         R13,R5
+    00000A68 2F36                   MOV.L       R3,@-R15
+    00000A6A E044                   MOV         #68,R0
+    00000A6C 02FE                   MOV.L       @(R0,R15),R2
+    00000A6E E044                   MOV         #68,R0
+    00000A70 2F26                   MOV.L       R2,@-R15
+    00000A72 03FE                   MOV.L       @(R0,R15),R3
+    00000A74 2F36                   MOV.L       R3,@-R15
+    00000A76 57F4                   MOV.L       @(16,R15),R7
+    00000A78 56F6                   MOV.L       @(24,R15),R6
+    00000A7A BE9C                   BSR         _click
+    00000A7C 54F5                   MOV.L       @(20,R15),R4
+    00000A7E 2008                   TST         R0,R0
+    00000A80 8D01                   BT/S        L614
+    00000A82 7F10                   ADD         #16,R15
+         Mines.c   315                        died = 1;
+    00000A84 1FE4                   MOV.L       R14,@(16,R15)
+    00000A86              L614:                             
+    00000A86 7A01                   ADD         #1,R10
+    00000A88 7D01                   ADD         #1,R13
+    00000A8A 3AE7                   CMP/GT      R14,R10
+    00000A8C 8FE5                   BF/S        L613
+    00000A8E 7C04                   ADD         #4,R12
+    00000A90 7801                   ADD         #1,R8
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   32
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000A92 38E7                   CMP/GT      R14,R8
+    00000A94 8BD4                   BF          L612
+         Mines.c   316                    }
+         Mines.c   317                }
+         Mines.c   318            }
+         Mines.c   319        }
+         Mines.c   320        return died;
+    00000A96 50F4                   MOV.L       @(16,R15),R0
+         Mines.c   321    }
+    00000A98              L611:                             
+    00000A98 7F14                   ADD         #20,R15
+    00000A9A 4F16                   LDS.L       @R15+,MACL
+    00000A9C 4F26                   LDS.L       @R15+,PR
+    00000A9E 68F6                   MOV.L       @R15+,R8
+    00000AA0 69F6                   MOV.L       @R15+,R9
+    00000AA2 6AF6                   MOV.L       @R15+,R10
+    00000AA4 6BF6                   MOV.L       @R15+,R11
+    00000AA6 6CF6                   MOV.L       @R15+,R12
+    00000AA8 6DF6                   MOV.L       @R15+,R13
+    00000AAA 000B                   RTS
+    00000AAC 6EF6                   MOV.L       @R15+,R14
+         Mines.c   322    
+         Mines.c   323    // Easy: 9x9, 10
+         Mines.c   324    // Medium: 16x16, 40
+         Mines.c   325    // Hard: 30x16, 99
+         Mines.c   326    int game(int width, int height, int mines) {
+    00000AAE              _game:                           ; function: game
+                                                           ; frame size=7296
+         Mines.c   327        int i; int j; int k; int l;
+         Mines.c   328        const int minCamX = 3; const int minCamY = 2;
+    00000AAE E303                   MOV         #3,R3
+    00000AB0 2FE6                   MOV.L       R14,@-R15
+    00000AB2 E202                   MOV         #2,R2
+    00000AB4 9073                   MOV.W       L683,R0    ; H'E3B8
+    00000AB6 2FD6                   MOV.L       R13,@-R15
+    00000AB8 2FC6                   MOV.L       R12,@-R15
+    00000ABA 2FB6                   MOV.L       R11,@-R15
+    00000ABC 2FA6                   MOV.L       R10,@-R15
+    00000ABE 2F96                   MOV.L       R9,@-R15
+    00000AC0 2F86                   MOV.L       R8,@-R15
+    00000AC2 E900                   MOV         #0,R9
+    00000AC4 4F22                   STS.L       PR,@-R15
+    00000AC6 6853                   MOV         R5,R8
+    00000AC8 4F12                   STS.L       MACL,@-R15
+         Mines.c   329        const int maxCamX = width-5;
+         Mines.c   330        const int maxCamY = height-4;
+         Mines.c   331        int camX = width/2; int camY = height/2;  // Position of center
+    00000ACA 6193                   MOV         R9,R1
+    00000ACC 3F0C                   ADD         R0,R15
+    00000ACE 6B83                   MOV         R8,R11
+    00000AD0 2F42                   MOV.L       R4,@R15
+    00000AD2 1F62                   MOV.L       R6,@(8,R15)
+    00000AD4 1F36                   MOV.L       R3,@(24,R15)
+    00000AD6 1F29                   MOV.L       R2,@(36,R15)
+    00000AD8 63F2                   MOV.L       @R15,R3
+    00000ADA 6283                   MOV         R8,R2
+    00000ADC 73FB                   ADD         #-5,R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   33
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000ADE 72FC                   ADD         #-4,R2
+    00000AE0 1F38                   MOV.L       R3,@(32,R15)
+    00000AE2 1F25                   MOV.L       R2,@(20,R15)
+    00000AE4 6AF2                   MOV.L       @R15,R10
+    00000AE6 31A7                   CMP/GT      R10,R1
+    00000AE8 3A1E                   ADDC        R1,R10
+    00000AEA 4A21                   SHAR        R10
+         Mines.c   332        int cursorX = camX; int cursorY = camY;
+         Mines.c   333        unsigned int key;
+         Mines.c   334        int started = 0;
+    00000AEC 1F93                   MOV.L       R9,@(12,R15)
+         Mines.c   335        int dead = 0;
+    00000AEE 6C13                   MOV         R1,R12
+    00000AF0 31B7                   CMP/GT      R11,R1
+    00000AF2 3B1E                   ADDC        R1,R11
+    00000AF4 4B21                   SHAR        R11
+    00000AF6 6EA3                   MOV         R10,R14
+    00000AF8 6DB3                   MOV         R11,R13
+         Mines.c   336    
+         Mines.c   337        int board[30][30];  // No dynamic memory :(   pretend its [width][height]
+         Mines.c   338        int revealed[30][30];  // 0 = hidden, 1 = revealed, 2 = flagged
+         Mines.c   339    
+         Mines.c   340        // initialize revealed
+         Mines.c   341        for(i = 0; i<width; i++) {
+    00000AFA 6713                   MOV         R1,R7
+    00000AFC 66F3                   MOV         R15,R6
+    00000AFE A00C                   BRA         L616
+    00000B00 7628                   ADD         #40,R6
+    00000B02              L617:                             
+         Mines.c   342            for(j = 0; j<height; j++) {
+    00000B02 6593                   MOV         R9,R5
+    00000B04 E400                   MOV         #0,R4
+    00000B06 4815                   CMP/PL      R8
+    00000B08 8F05                   BF/S        L618
+    00000B0A 346C                   ADD         R6,R4
+    00000B0C              L619:                             
+         Mines.c   343                    revealed[i][j] = 0;
+    00000B0C 2492                   MOV.L       R9,@R4
+    00000B0E 7501                   ADD         #1,R5
+    00000B10 3583                   CMP/GE      R8,R5
+    00000B12 8FFB                   BF/S        L619
+    00000B14 7404                   ADD         #4,R4
+    00000B16              L618:                             
+    00000B16 7701                   ADD         #1,R7
+    00000B18 7678                   ADD         #120,R6
+    00000B1A              L616:                             
+    00000B1A 63F2                   MOV.L       @R15,R3
+    00000B1C 3733                   CMP/GE      R3,R7
+    00000B1E 8BF0                   BF          L617
+         Mines.c   344            }
+         Mines.c   345        }
+         Mines.c   346    
+         Mines.c   347        updateBoard(board, revealed, camX, camY, width, height,
+         Mines.c   348         cursorX, cursorY, dead);
+    00000B20 2FC6                   MOV.L       R12,@-R15
+    00000B22 67B3                   MOV         R11,R7
+    00000B24 943C                   MOV.W       L683+2,R4  ; H'0E4C
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   34
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000B26 66A3                   MOV         R10,R6
+    00000B28 2FD6                   MOV.L       R13,@-R15
+    00000B2A 2FE6                   MOV.L       R14,@-R15
+    00000B2C 2F86                   MOV.L       R8,@-R15
+    00000B2E 53F4                   MOV.L       @(16,R15),R3
+    00000B30 2F36                   MOV.L       R3,@-R15
+    00000B32 65F3                   MOV         R15,R5
+    00000B34 753C                   ADD         #60,R5
+    00000B36 BD62                   BSR         _updateBoard
+    00000B38 34FC                   ADD         R15,R4
+    00000B3A 7F14                   ADD         #20,R15
+    00000B3C 6283                   MOV         R8,R2
+    00000B3E 72FF                   ADD         #-1,R2
+    00000B40 1F24                   MOV.L       R2,@(16,R15)
+    00000B42 63F2                   MOV.L       @R15,R3
+    00000B44 73FF                   ADD         #-1,R3
+    00000B46 1F37                   MOV.L       R3,@(28,R15)
+         Mines.c   349    
+         Mines.c   350        while(1){
+    00000B48              L621:                             
+         Mines.c   351            GetKey(&key);
+    00000B48 D319                   MOV.L       L683+18,R3 ; _GetKey
+    00000B4A 64F3                   MOV         R15,R4
+    00000B4C 430B                   JSR         @R3
+    00000B4E 7404                   ADD         #4,R4
+    00000B50 50F1                   MOV.L       @(4,R15),R0
+    00000B52 E678                   MOV         #120,R6
+    00000B54 9125                   MOV.W       L683+4,R1  ; H'7542
+    00000B56 63F3                   MOV         R15,R3
+    00000B58 0E67                   MUL.L       R6,R14
+    00000B5A 65D3                   MOV         R13,R5
+    00000B5C 041A                   STS         MACL,R4
+    00000B5E 7328                   ADD         #40,R3
+    00000B60 343C                   ADD         R3,R4
+    00000B62 3010                   CMP/EQ      R1,R0
+    00000B64 8D26                   BT/S        L522
+    00000B66 4508                   SHLL2       R5
+    00000B68 911C                   MOV.W       L683+6,R1  ; H'7547
+    00000B6A 3010                   CMP/EQ      R1,R0
+    00000B6C 892F                   BT          L523
+    00000B6E 911A                   MOV.W       L683+8,R1  ; H'7544
+    00000B70 3010                   CMP/EQ      R1,R0
+    00000B72 893A                   BT          L524
+    00000B74 9118                   MOV.W       L683+10,R1 ; H'7545
+    00000B76 3010                   CMP/EQ      R1,R0
+    00000B78 8944                   BT          L525
+    00000B7A 8837                   CMP/EQ      #55,R0
+    00000B7C 8950                   BT          L526
+    00000B7E 8834                   CMP/EQ      #52,R0
+    00000B80 8B01                   BF          L684
+    00000B82 A07A                   BRA         L527
+    00000B84 0009                   NOP
+    00000B86              L684:                             
+    00000B86 9110                   MOV.W       L683+12,R1 ; H'7532
+    00000B88 3010                   CMP/EQ      R1,R0
+    00000B8A 8B01                   BF          L685
+    00000B8C A087                   BRA         L664
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   35
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000B8E 0009                   NOP
+    00000B90              L685:                             
+    00000B90 910C                   MOV.W       L683+14,R1 ; H'7534
+    00000B92 3010                   CMP/EQ      R1,R0
+    00000B94 8B01                   BF          L686
+    00000B96 A080                   BRA         L529
+    00000B98 0009                   NOP
+    00000B9A              L686:                             
+    00000B9A A084                   BRA         L622
+    00000B9C 0009                   NOP
+    00000B9E              L683:                             
+    00000B9E E3B8                   .DATA.W     H'E3B8
+    00000BA0 0E4C                   .DATA.W     H'0E4C
+    00000BA2 7542                   .DATA.W     H'7542
+    00000BA4 7547                   .DATA.W     H'7547
+    00000BA6 7544                   .DATA.W     H'7544
+    00000BA8 7545                   .DATA.W     H'7545
+    00000BAA 7532                   .DATA.W     H'7532
+    00000BAC 7534                   .DATA.W     H'7534
+    00000BAE 0000                   .DATA.W     0
+    00000BB0 <00000000>             .DATA.L     _GetKey
+    00000BB4              L522:                            ; case label 
+         Mines.c   352            switch(key) {
+         Mines.c   353                case KEY_CTRL_UP:
+         Mines.c   354                    if(cursorY > 0) {
+    00000BB4 4D15                   CMP/PL      R13
+    00000BB6 8B00                   BF          L623
+         Mines.c   355                        cursorY--;
+    00000BB8 7DFF                   ADD         #-1,R13
+    00000BBA              L623:                             
+         Mines.c   356                    }
+         Mines.c   357                    if(camY > minCamY && cursorY < camY) {
+    00000BBA 53F9                   MOV.L       @(36,R15),R3
+    00000BBC 3B37                   CMP/GT      R3,R11
+    00000BBE 8B02                   BF          L624
+    00000BC0 3DB3                   CMP/GE      R11,R13
+    00000BC2 8900                   BT          L624
+         Mines.c   358                        camY--;
+    00000BC4 7BFF                   ADD         #-1,R11
+    00000BC6              L624:                             
+         Mines.c   359                    }
+         Mines.c   360                    if(dead) {
+    00000BC6 2CC8                   TST         R12,R12
+    00000BC8 8B0D                   BF          L508
+         Mines.c   361                        cursorY = camY;
+         Mines.c   362                    }
+         Mines.c   363                    break;
+    00000BCA A06C                   BRA         L622
+    00000BCC 0009                   NOP
+    00000BCE              L523:                            ; case label 
+         Mines.c   364                case KEY_CTRL_DOWN:
+         Mines.c   365                    if(cursorY < height-1) {
+    00000BCE 51F4                   MOV.L       @(16,R15),R1
+    00000BD0 3D13                   CMP/GE      R1,R13
+    00000BD2 8900                   BT          L626
+         Mines.c   366                        cursorY++;
+    00000BD4 7D01                   ADD         #1,R13
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   36
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000BD6              L626:                             
+         Mines.c   367                    }
+         Mines.c   368                    if(camY <= maxCamY && cursorY > camY) {
+    00000BD6 53F5                   MOV.L       @(20,R15),R3
+    00000BD8 3B37                   CMP/GT      R3,R11
+    00000BDA 8902                   BT          L627
+    00000BDC 3DB7                   CMP/GT      R11,R13
+    00000BDE 8B00                   BF          L627
+         Mines.c   369                        camY++;
+    00000BE0 7B01                   ADD         #1,R11
+    00000BE2              L627:                             
+         Mines.c   370                    }
+         Mines.c   371                    if(dead) {
+    00000BE2 2CC8                   TST         R12,R12
+    00000BE4 895F                   BT          L622
+    00000BE6              L508:
+         Mines.c   372                        cursorY = camY;
+         Mines.c   373                    }
+         Mines.c   374                    break;
+    00000BE6 A05E                   BRA         L622
+    00000BE8 6DB3                   MOV         R11,R13
+    00000BEA              L524:                            ; case label 
+         Mines.c   375                case KEY_CTRL_LEFT:
+         Mines.c   376                    if(cursorX > 0) {
+    00000BEA 4E15                   CMP/PL      R14
+    00000BEC 8B00                   BF          L629
+         Mines.c   377                        cursorX--;
+    00000BEE 7EFF                   ADD         #-1,R14
+    00000BF0              L629:                             
+         Mines.c   378                    }
+         Mines.c   379                    if(camX > minCamX && cursorX < camX) {
+    00000BF0 53F6                   MOV.L       @(24,R15),R3
+    00000BF2 3A37                   CMP/GT      R3,R10
+    00000BF4 8B02                   BF          L630
+    00000BF6 3EA3                   CMP/GE      R10,R14
+    00000BF8 8900                   BT          L630
+         Mines.c   380                        camX--;
+    00000BFA 7AFF                   ADD         #-1,R10
+    00000BFC              L630:                             
+         Mines.c   381                    }
+         Mines.c   382                    if(dead) {
+    00000BFC 2CC8                   TST         R12,R12
+    00000BFE 8B0D                   BF          L507
+         Mines.c   383                        cursorX = camX;
+         Mines.c   384                    }
+         Mines.c   385                    break;
+    00000C00 A051                   BRA         L622
+    00000C02 0009                   NOP
+    00000C04              L525:                            ; case label 
+         Mines.c   386                case KEY_CTRL_RIGHT:
+         Mines.c   387                    if(cursorX < width-1) {
+    00000C04 51F7                   MOV.L       @(28,R15),R1
+    00000C06 3E13                   CMP/GE      R1,R14
+    00000C08 8900                   BT          L632
+         Mines.c   388                        cursorX++;
+    00000C0A 7E01                   ADD         #1,R14
+    00000C0C              L632:                             
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   37
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         Mines.c   389                    }
+         Mines.c   390                    if(camX <= maxCamX && cursorX > camX) {
+    00000C0C 53F8                   MOV.L       @(32,R15),R3
+    00000C0E 3A37                   CMP/GT      R3,R10
+    00000C10 8902                   BT          L633
+    00000C12 3EA7                   CMP/GT      R10,R14
+    00000C14 8B00                   BF          L633
+         Mines.c   391                        camX++;
+    00000C16 7A01                   ADD         #1,R10
+    00000C18              L633:                             
+         Mines.c   392                    }
+         Mines.c   393                    if(dead) {
+    00000C18 2CC8                   TST         R12,R12
+    00000C1A 8944                   BT          L622
+    00000C1C              L507:
+         Mines.c   394                        cursorX = camX;
+         Mines.c   395                    }
+         Mines.c   396                    break;
+    00000C1C A043                   BRA         L622
+    00000C1E 6EA3                   MOV         R10,R14
+    00000C20              L526:                            ; case label 
+         Mines.c   397                case KEY_CHAR_7:
+         Mines.c   398                    if(!dead) {
+    00000C20 2CC8                   TST         R12,R12
+    00000C22 8B26                   BF          L635
+         Mines.c   399                        if(revealed[cursorX][cursorY] == 0) {
+    00000C24 6053                   MOV         R5,R0
+    00000C26 014E                   MOV.L       @(R0,R4),R1
+    00000C28 2118                   TST         R1,R1
+    00000C2A 8B0F                   BF          L636
+         Mines.c   400                            dead = click(cursorX, cursorY, board, revealed, 
+         Mines.c   401                            width, height, mines, started);
+    00000C2C 52F3                   MOV.L       @(12,R15),R2
+    00000C2E 6733                   MOV         R3,R7
+    00000C30 9622                   MOV.W       L687,R6    ; H'0E48
+    00000C32 65D3                   MOV         R13,R5
+    00000C34 2F26                   MOV.L       R2,@-R15
+    00000C36 51F3                   MOV.L       @(12,R15),R1
+    00000C38 2F16                   MOV.L       R1,@-R15
+    00000C3A 2F86                   MOV.L       R8,@-R15
+    00000C3C 52F3                   MOV.L       @(12,R15),R2
+    00000C3E 2F26                   MOV.L       R2,@-R15
+    00000C40 36FC                   ADD         R15,R6
+    00000C42 BDB8                   BSR         _click
+    00000C44 64E3                   MOV         R14,R4
+    00000C46 7F10                   ADD         #16,R15
+    00000C48 A013                   BRA         L635
+    00000C4A 6C03                   MOV         R0,R12
+    00000C4C              L636:                             
+         Mines.c   402                        }
+         Mines.c   403                        else if(revealed[cursorX][cursorY] == 1) {
+    00000C4C 6043                   MOV         R4,R0
+    00000C4E 005E                   MOV.L       @(R0,R5),R0
+    00000C50 8801                   CMP/EQ      #1,R0
+    00000C52 8B0E                   BF          L635
+         Mines.c   404                            dead = chord(cursorX, cursorY, board, revealed, 
+         Mines.c   405                            width, height, mines, started);
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   38
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000C54 51F3                   MOV.L       @(12,R15),R1
+    00000C56 6733                   MOV         R3,R7
+    00000C58 960E                   MOV.W       L687,R6    ; H'0E48
+    00000C5A 65D3                   MOV         R13,R5
+    00000C5C 2F16                   MOV.L       R1,@-R15
+    00000C5E 52F3                   MOV.L       @(12,R15),R2
+    00000C60 2F26                   MOV.L       R2,@-R15
+    00000C62 2F86                   MOV.L       R8,@-R15
+    00000C64 52F3                   MOV.L       @(12,R15),R2
+    00000C66 2F26                   MOV.L       R2,@-R15
+    00000C68 36FC                   ADD         R15,R6
+    00000C6A BEB0                   BSR         _chord
+    00000C6C 64E3                   MOV         R14,R4
+    00000C6E 7F10                   ADD         #16,R15
+    00000C70 6C03                   MOV         R0,R12
+    00000C72              L635:                             
+         Mines.c   406                        }
+         Mines.c   407                    }
+         Mines.c   408                    started = 1;
+    00000C72 E401                   MOV         #1,R4
+         Mines.c   409                    break;
+    00000C74 A017                   BRA         L622
+    00000C76 1F43                   MOV.L       R4,@(12,R15)
+    00000C78              L687:                             
+    00000C78 0E48                   .DATA.W     H'0E48
+    00000C7A              L527:                            ; case label 
+         Mines.c   410                case KEY_CHAR_4:
+         Mines.c   411                    if(!dead) {
+    00000C7A 2CC8                   TST         R12,R12
+    00000C7C 8B13                   BF          L622
+         Mines.c   412                        if(revealed[cursorX][cursorY] == 0) {
+    00000C7E 6053                   MOV         R5,R0
+    00000C80 014E                   MOV.L       @(R0,R4),R1
+    00000C82 2118                   TST         R1,R1
+    00000C84 8B03                   BF          L640
+         Mines.c   413                            revealed[cursorX][cursorY] = 2;
+    00000C86 345C                   ADD         R5,R4
+    00000C88 E102                   MOV         #2,R1
+    00000C8A A00C                   BRA         L622
+    00000C8C 2412                   MOV.L       R1,@R4
+    00000C8E              L640:                             
+         Mines.c   414                        }
+         Mines.c   415                        else if(revealed[cursorX][cursorY] == 2) {
+    00000C8E 004E                   MOV.L       @(R0,R4),R0
+    00000C90 8802                   CMP/EQ      #2,R0
+    00000C92 8B08                   BF          L622
+         Mines.c   416                            revealed[cursorX][cursorY] = 0;
+    00000C94 345C                   ADD         R5,R4
+         Mines.c   417                        }
+         Mines.c   418                    }
+         Mines.c   419                    break;
+    00000C96 A006                   BRA         L622
+    00000C98 2492                   MOV.L       R9,@R4
+    00000C9A              L529:                            ; case label 
+         Mines.c   420                case KEY_CTRL_EXIT:
+         Mines.c   421                    difficultySelect();
+         Mines.c   422                    return 0;
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   39
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         Mines.c   423                    break;
+         Mines.c   424                case KEY_CTRL_EXE:
+         Mines.c   425                    if(dead) {
+    00000C9A 2CC8                   TST         R12,R12
+    00000C9C 8903                   BT          L622
+    00000C9E              L664:                             
+    00000C9E B067                   BSR         _difficultySelect
+    00000CA0 0009                   NOP
+         Mines.c   426                        difficultySelect();
+         Mines.c   427                        return 0;
+    00000CA2 A00F                   BRA         L643
+    00000CA4 E000                   MOV         #0,R0
+    00000CA6              L622:                             
+         Mines.c   428                    }
+         Mines.c   429                    break;
+         Mines.c   430            }
+         Mines.c   431            updateBoard(board, revealed, camX, camY,
+         Mines.c   432             width, height, cursorX, cursorY, dead);
+    00000CA6 67B3                   MOV         R11,R7
+    00000CA8 944D                   MOV.W       L688,R4    ; H'0E4C
+    00000CAA 66A3                   MOV         R10,R6
+    00000CAC 2FC6                   MOV.L       R12,@-R15
+    00000CAE 2FD6                   MOV.L       R13,@-R15
+    00000CB0 2FE6                   MOV.L       R14,@-R15
+    00000CB2 2F86                   MOV.L       R8,@-R15
+    00000CB4 52F4                   MOV.L       @(16,R15),R2
+    00000CB6 2F26                   MOV.L       R2,@-R15
+    00000CB8 65F3                   MOV         R15,R5
+    00000CBA 753C                   ADD         #60,R5
+    00000CBC BC9F                   BSR         _updateBoard
+    00000CBE 34FC                   ADD         R15,R4
+    00000CC0 AF42                   BRA         L621
+    00000CC2 7F14                   ADD         #20,R15
+    00000CC4              L643:                             
+         Mines.c   433        }
+         Mines.c   434    }
+    00000CC4 9140                   MOV.W       L688+2,R1  ; H'1C48
+    00000CC6 3F1C                   ADD         R1,R15
+    00000CC8 4F16                   LDS.L       @R15+,MACL
+    00000CCA 4F26                   LDS.L       @R15+,PR
+    00000CCC 68F6                   MOV.L       @R15+,R8
+    00000CCE 69F6                   MOV.L       @R15+,R9
+    00000CD0 6AF6                   MOV.L       @R15+,R10
+    00000CD2 6BF6                   MOV.L       @R15+,R11
+    00000CD4 6CF6                   MOV.L       @R15+,R12
+    00000CD6 6DF6                   MOV.L       @R15+,R13
+    00000CD8 000B                   RTS
+    00000CDA 6EF6                   MOV.L       @R15+,R14
+         Mines.c   435    
+         Mines.c   436    int titleScreen() {
+    00000CDC              _titleScreen:                    ; function: titleScreen
+                                                           ; frame size=16
+    00000CDC 2FE6                   MOV.L       R14,@-R15
+    00000CDE 2FD6                   MOV.L       R13,@-R15
+    00000CE0 4F22                   STS.L       PR,@-R15
+    00000CE2 7FFC                   ADD         #-4,R15
+         Mines.c   437        unsigned int key;
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   40
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         Mines.c   438    
+         Mines.c   439        Bdisp_AllClr_DDVRAM();
+    00000CE4 D319                   MOV.L       L688+6,R3  ; _Bdisp_AllClr_DDVRAM
+    00000CE6 430B                   JSR         @R3
+    00000CE8 0009                   NOP
+         Mines.c   440        locate(3,2);
+    00000CEA E502                   MOV         #2,R5
+    00000CEC DE18                   MOV.L       L688+10,R14; _locate
+    00000CEE 4E0B                   JSR         @R14
+    00000CF0 E403                   MOV         #3,R4
+         Mines.c   441        Print("MINESWEEPER");
+    00000CF2 DD18                   MOV.L       L688+14,R13; _Print
+    00000CF4 D418                   MOV.L       L688+18,R4 ; L478
+    00000CF6 4D0B                   JSR         @R13
+    00000CF8 0009                   NOP
+         Mines.c   442        locate(3,4);
+    00000CFA E504                   MOV         #4,R5
+    00000CFC 4E0B                   JSR         @R14
+    00000CFE E403                   MOV         #3,R4
+         Mines.c   443        Print("Controls");
+    00000D00 D416                   MOV.L       L688+22,R4 ; L479
+    00000D02 4D0B                   JSR         @R13
+    00000D04 0009                   NOP
+         Mines.c   444        locate(3,5);
+    00000D06 E505                   MOV         #5,R5
+    00000D08 4E0B                   JSR         @R14
+    00000D0A E403                   MOV         #3,R4
+         Mines.c   445        Print(" 4: Flag");
+    00000D0C D414                   MOV.L       L688+26,R4 ; L480
+    00000D0E 4D0B                   JSR         @R13
+    00000D10 0009                   NOP
+         Mines.c   446        locate(3,6);
+    00000D12 E506                   MOV         #6,R5
+    00000D14 4E0B                   JSR         @R14
+    00000D16 E403                   MOV         #3,R4
+         Mines.c   447        Print(" 7: Open / Chord");
+    00000D18 D412                   MOV.L       L688+30,R4 ; L481
+    00000D1A 4D0B                   JSR         @R13
+    00000D1C 0009                   NOP
+         Mines.c   448        locate(3,7);
+    00000D1E E507                   MOV         #7,R5
+    00000D20 4E0B                   JSR         @R14
+    00000D22 E403                   MOV         #3,R4
+         Mines.c   449        Print("EXE to continue");
+    00000D24 D410                   MOV.L       L688+34,R4 ; L482
+    00000D26 4D0B                   JSR         @R13
+    00000D28 0009                   NOP
+    00000D2A DD10                   MOV.L       L688+38,R13; _GetKey
+    00000D2C 9E0D                   MOV.W       L688+4,R14 ; H'7534
+         Mines.c   450    
+         Mines.c   451        while(1) {
+    00000D2E              L646:                             
+         Mines.c   452            GetKey(&key);
+    00000D2E 4D0B                   JSR         @R13
+    00000D30 64F3                   MOV         R15,R4
+         Mines.c   453            if(key == KEY_CTRL_EXE) {
+    00000D32 63F2                   MOV.L       @R15,R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   41
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000D34 33E0                   CMP/EQ      R14,R3
+    00000D36 8BFA                   BF          L646
+         Mines.c   454                break;
+         Mines.c   455            }
+         Mines.c   456        }
+         Mines.c   457        difficultySelect();
+    00000D38 B01A                   BSR         _difficultySelect
+    00000D3A 0009                   NOP
+         Mines.c   458    }
+    00000D3C 7F04                   ADD         #4,R15
+    00000D3E 4F26                   LDS.L       @R15+,PR
+    00000D40 6DF6                   MOV.L       @R15+,R13
+    00000D42 000B                   RTS
+    00000D44 6EF6                   MOV.L       @R15+,R14
+    00000D46              L688:                             
+    00000D46 0E4C                   .DATA.W     H'0E4C
+    00000D48 1C48                   .DATA.W     H'1C48
+    00000D4A 7534                   .DATA.W     H'7534
+    00000D4C <00000000>             .DATA.L     _Bdisp_AllClr_DDVRAM
+    00000D50 <00000000>             .DATA.L     _locate
+    00000D54 <00000000>             .DATA.L     _Print
+    00000D58 <00000000>             .DATA.L     L478
+    00000D5C <00000000>             .DATA.L     L479
+    00000D60 <00000000>             .DATA.L     L480
+    00000D64 <00000000>             .DATA.L     L481
+    00000D68 <00000000>             .DATA.L     L482
+    00000D6C <00000000>             .DATA.L     _GetKey
+         Mines.c   459    
+         Mines.c   460    int difficultySelect() {
+    00000D70              _difficultySelect:               ; function: difficultySelect
+                                                           ; frame size=4
+         Mines.c   461        unsigned int key;
+         Mines.c   462        Bdisp_AllClr_DDVRAM();
+    00000D70 D22E                   MOV.L       L689+4,R2  ; _Bdisp_AllClr_DDVRAM
+    00000D72 7FFC                   ADD         #-4,R15
+    00000D74 420B                   JSR         @R2
+    00000D76 0009                   NOP
+         Mines.c   463        locate(3,2);
+    00000D78 DE2D                   MOV.L       L689+8,R14 ; _locate
+    00000D7A E502                   MOV         #2,R5
+    00000D7C 4E0B                   JSR         @R14
+    00000D7E E403                   MOV         #3,R4
+         Mines.c   464        Print("SELECT");
+    00000D80 DD2C                   MOV.L       L689+12,R13; _Print
+    00000D82 D42D                   MOV.L       L689+16,R4 ; L487
+    00000D84 4D0B                   JSR         @R13
+    00000D86 0009                   NOP
+         Mines.c   465        locate(3,4);
+    00000D88 E504                   MOV         #4,R5
+    00000D8A 4E0B                   JSR         @R14
+    00000D8C E403                   MOV         #3,R4
+         Mines.c   466        Print("1: Easy");
+    00000D8E D42B                   MOV.L       L689+20,R4 ; L488
+    00000D90 4D0B                   JSR         @R13
+    00000D92 0009                   NOP
+         Mines.c   467        locate(3,5);
+    00000D94 E505                   MOV         #5,R5
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   42
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000D96 4E0B                   JSR         @R14
+    00000D98 E403                   MOV         #3,R4
+         Mines.c   468        Print("2: Medium");
+    00000D9A D429                   MOV.L       L689+24,R4 ; L489
+    00000D9C 4D0B                   JSR         @R13
+    00000D9E 0009                   NOP
+         Mines.c   469        locate(3,6);
+    00000DA0 E506                   MOV         #6,R5
+    00000DA2 4E0B                   JSR         @R14
+    00000DA4 E403                   MOV         #3,R4
+         Mines.c   470        Print("3: Hard");
+    00000DA6 D427                   MOV.L       L689+28,R4 ; L490
+    00000DA8 4D0B                   JSR         @R13
+    00000DAA 0009                   NOP
+         Mines.c   471        locate(3,7);
+    00000DAC E507                   MOV         #7,R5
+    00000DAE 4E0B                   JSR         @R14
+    00000DB0 E403                   MOV         #3,R4
+         Mines.c   472        Print("4: Extreme");
+    00000DB2 D425                   MOV.L       L689+32,R4 ; L491
+    00000DB4 4D0B                   JSR         @R13
+    00000DB6 0009                   NOP
+    00000DB8 DD24                   MOV.L       L689+36,R13; _GetKey
+    00000DBA 9E35                   MOV.W       L689,R14   ; H'00C8
+         Mines.c   473        while(1) {
+    00000DBC              L650:                             
+         Mines.c   474            GetKey(&key);
+    00000DBC 4D0B                   JSR         @R13
+    00000DBE 64F3                   MOV         R15,R4
+         Mines.c   475            switch(key) {
+    00000DC0 60F2                   MOV.L       @R15,R0
+    00000DC2 8831                   CMP/EQ      #49,R0
+    00000DC4 890A                   BT          L540
+    00000DC6 8832                   CMP/EQ      #50,R0
+    00000DC8 890C                   BT          L541
+    00000DCA 8833                   CMP/EQ      #51,R0
+    00000DCC 890E                   BT          L542
+    00000DCE 8834                   CMP/EQ      #52,R0
+    00000DD0 8910                   BT          L543
+    00000DD2 912A                   MOV.W       L689+2,R1  ; H'7532
+    00000DD4 3010                   CMP/EQ      R1,R0
+    00000DD6 8914                   BT          L544
+    00000DD8 AFF0                   BRA         L650
+    00000DDA 0009                   NOP
+    00000DDC              L540:                            ; case label 
+         Mines.c   476                case KEY_CHAR_1:
+         Mines.c   477                    game(9, 9, 10);
+    00000DDC E60A                   MOV         #10,R6
+    00000DDE E509                   MOV         #9,R5
+         Mines.c   478                    break;
+    00000DE0 A00B                   BRA         L667
+    00000DE2 6453                   MOV         R5,R4
+    00000DE4              L541:                            ; case label 
+         Mines.c   479                case KEY_CHAR_2:
+         Mines.c   480                    game(16, 16, 40);
+    00000DE4 E628                   MOV         #40,R6
+    00000DE6 E510                   MOV         #16,R5
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   43
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         Mines.c   481                    break;
+    00000DE8 A007                   BRA         L667
+    00000DEA 6453                   MOV         R5,R4
+    00000DEC              L542:                            ; case label 
+         Mines.c   482                case KEY_CHAR_3:
+         Mines.c   483                    game(30, 16, 99);
+    00000DEC E663                   MOV         #99,R6
+    00000DEE E510                   MOV         #16,R5
+         Mines.c   484                    break;
+    00000DF0 A003                   BRA         L667
+    00000DF2 E41E                   MOV         #30,R4
+    00000DF4              L543:                            ; case label 
+         Mines.c   485                case KEY_CHAR_4:
+         Mines.c   486                    game(30, 30, 200);
+    00000DF4 66E3                   MOV         R14,R6
+    00000DF6 E51E                   MOV         #30,R5
+    00000DF8 E41E                   MOV         #30,R4
+         Mines.c   487                    break;
+    00000DFA              L667:                             
+    00000DFA BE58                   BSR         _game
+    00000DFC 0009                   NOP
+    00000DFE AFDD                   BRA         L650
+    00000E00 0009                   NOP
+    00000E02              L544:                            ; case label 
+         Mines.c   488                case KEY_CTRL_EXIT:
+         Mines.c   489                    titleScreen();
+    00000E02 BF6B                   BSR         _titleScreen
+    00000E04 0009                   NOP
+    00000E06 AFD9                   BRA         L650
+    00000E08 0009                   NOP
+         Mines.c   490            }
+         Mines.c   491        }
+         Mines.c   492    }
+         Mines.c   493    
+         Mines.c   494    int backgroundTick() {
+    00000E0A              _backgroundTick:                 ; function: backgroundTick
+                                                           ; frame size=0
+         Mines.c   495        ++rSeed;
+         Mines.c   496        SetTimer(ID_USER_TIMER1, 100, backgroundTick);
+    00000E0A E564                   MOV         #100,R5
+    00000E0C D212                   MOV.L       L689+48,R2 ; _SetTimer
+    00000E0E D410                   MOV.L       L689+40,R4 ; _rSeed
+    00000E10 D610                   MOV.L       L689+44,R6 ; _backgroundTick
+    00000E12 6342                   MOV.L       @R4,R3
+    00000E14 7301                   ADD         #1,R3
+    00000E16 2432                   MOV.L       R3,@R4
+    00000E18 422B                   JMP         @R2
+    00000E1A E401                   MOV         #1,R4
+         Mines.c   497    }
+         Mines.c   498    
+         Mines.c   499    int AddIn_main(int isAppli, unsigned short OptionNum)
+    00000E1C              _AddIn_main:                     ; function: AddIn_main
+                                                           ; frame size=4
+    00000E1C 4F22                   STS.L       PR,@-R15
+         Mines.c   500    {
+         Mines.c   501        //backgroundTick();
+         Mines.c   502        titleScreen();
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   44
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000E1E BF5D                   BSR         _titleScreen
+    00000E20 0009                   NOP
+         Mines.c   503    
+         Mines.c   504        return 1;
+         Mines.c   505    }
+    00000E22 4F26                   LDS.L       @R15+,PR
+    00000E24 000B                   RTS
+    00000E26 E001                   MOV         #1,R0
+    00000E28              L689:                             
+    00000E28 00C8                   .DATA.W     H'00C8
+    00000E2A 7532                   .DATA.W     H'7532
+    00000E2C <00000000>             .DATA.L     _Bdisp_AllClr_DDVRAM
+    00000E30 <00000000>             .DATA.L     _locate
+    00000E34 <00000000>             .DATA.L     _Print
+    00000E38 <00000000>             .DATA.L     L487
+    00000E3C <00000000>             .DATA.L     L488
+    00000E40 <00000000>             .DATA.L     L489
+    00000E44 <00000000>             .DATA.L     L490
+    00000E48 <00000000>             .DATA.L     L491
+    00000E4C <00000000>             .DATA.L     _GetKey
+    00000E50 <00000000>             .DATA.L     _rSeed
+    00000E54 <00000000>             .DATA.L     _backgroundTick
+    00000E58 <00000000>             .DATA.L     _SetTimer
+         Mines.c   506    
+         Mines.c   507    
+         Mines.c   508    //****************************************************************************
+         Mines.c   509    //**************                                              ****************
+         Mines.c   510    //**************                 Notice!                      ****************
+         Mines.c   511    //**************                                              ****************
+         Mines.c   512    //**************  Please do not change the following source.  ****************
+         Mines.c   513    //**************                                              ****************
+         Mines.c   514    //****************************************************************************
+         Mines.c   515    
+         Mines.c   516    
+         Mines.c   517    #pragma section _BR_Size
+         Mines.c   518    unsigned long BR_Size;
+         Mines.c   519    #pragma section
+         Mines.c   520    
+         Mines.c   521    
+         Mines.c   522    #pragma section _TOP
+         Mines.c   523    
+         Mines.c   524    //****************************************************************************
+         Mines.c   525    //  InitializeSystem
+         Mines.c   526    //
+         Mines.c   527    //  param   :   isAppli   : 1 = Application / 0 = eActivity
+         Mines.c   528    //              OptionNum : Option Number (only eActivity)
+         Mines.c   529    //
+         Mines.c   530    //  retval  :   1 = No error / 0 = Error
+         Mines.c   531    //
+         Mines.c   532    //****************************************************************************
+         Mines.c   533    int InitializeSystem(int isAppli, unsigned short OptionNum)
+P_T 00000000              _InitializeSystem:               ; function: InitializeSystem
+                                                           ; frame size=0
+         Mines.c   534    {
+         Mines.c   535        return INIT_ADDIN_APPLICATION(isAppli, OptionNum);
+    00000000 D301                   MOV.L       L690+2,R3  ; _INIT_ADDIN_APPLICATION
+    00000002 432B                   JMP         @R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   45
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000004 0009                   NOP
+    00000006              L690:                             
+    00000006 0000                   .DATA.W     0
+    00000008 <00000000>             .DATA.L     _INIT_ADDIN_APPLICATION
+         Mines.c   536    }
+         Mines.c   537    
+         Mines.c   538    #pragma section
+         Mines.c   539    
+D   00000000              _rSeed:                          ; static: rSeed
+    00000000 00003039               .DATA.L     H'00003039
+C   00000000              L478:
+    00000000 4D494E4553             .SDATA      "MINESWEEPER"
+             5745455045   
+             52           
+    0000000B 00                     .DATA.B     H'00
+    0000000C              L479:
+    0000000C 436F6E7472             .SDATA      "Controls"
+             6F6C73       
+    00000014 00                     .DATA.B     H'00
+    00000015 00000001               .RES.B      1
+    00000016 00000002               .RES.W      1
+    00000018              L480:
+    00000018 20343A2046             .SDATA      " 4: Flag"
+             6C6167       
+    00000020 00                     .DATA.B     H'00
+    00000021 00000001               .RES.B      1
+    00000022 00000002               .RES.W      1
+    00000024              L481:
+    00000024 20373A204F             .SDATA      " 7: Open / Chord"
+             70656E202F   
+             2043686F72   
+             64           
+    00000034 00                     .DATA.B     H'00
+    00000035 00000001               .RES.B      1
+    00000036 00000002               .RES.W      1
+    00000038              L482:
+    00000038 4558452074             .SDATA      "EXE to continue"
+             6F20636F6E   
+             74696E7565   
+    00000047 00                     .DATA.B     H'00
+    00000048              L487:
+    00000048 53454C4543             .SDATA      "SELECT"
+             54           
+    0000004E 00                     .DATA.B     H'00
+    0000004F 00000001               .RES.B      1
+    00000050              L488:
+    00000050 313A204561             .SDATA      "1: Easy"
+             7379         
+    00000057 00                     .DATA.B     H'00
+    00000058              L489:
+    00000058 323A204D65             .SDATA      "2: Medium"
+             6469756D     
+    00000061 00                     .DATA.B     H'00
+    00000062 00000002               .RES.W      1
+    00000064              L490:
+    00000064 333A204861             .SDATA      "3: Hard"
+             7264         
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE   46
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000006B 00                     .DATA.B     H'00
+    0000006C              L491:
+    0000006C 343A204578             .SDATA      "4: Extreme"
+             7472656D65   
+    00000076 00                     .DATA.B     H'00
+B_B 00000000              _BR_Size:                        ; static: BR_Size
+    00000000 00000004               .RES.L      1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 10-May-2024 22:30:21  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:        11
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      539
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000E5C Byte(s)
+PROGRAM  SECTION (P_BR_Size):                       00000000 Byte(s)
+PROGRAM  SECTION (P_TOP):                           0000000C Byte(s)
+CONSTANT SECTION (C):                               00000077 Byte(s)
+CONSTANT SECTION (C_BR_Size):                       00000000 Byte(s)
+CONSTANT SECTION (C_TOP):                           00000000 Byte(s)
+DATA     SECTION (D):                               00000004 Byte(s)
+DATA     SECTION (D_BR_Size):                       00000000 Byte(s)
+DATA     SECTION (D_TOP):                           00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+BSS      SECTION (B_BR_Size):                       00000004 Byte(s)
+BSS      SECTION (B_TOP):                           00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000EE7 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           13
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:          17
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:           171
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\hojoo\AppData\Local\Temp\hmk3666.tmp 
+
